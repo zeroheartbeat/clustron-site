@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkclustron_site=globalThis.webpackChunkclustron_site||[]).push([[1903],{1912(s){s.exports=JSON.parse('{"blogBasePath":"/blog","blogTitle":"Blog","authorsListPath":"/blog/authors"}')}}]);
