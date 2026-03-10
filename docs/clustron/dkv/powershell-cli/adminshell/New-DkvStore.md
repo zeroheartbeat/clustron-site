@@ -1,3 +1,8 @@
+---
+title: New-DkvStore
+sidebar_position: 4
+---
+
 # New-DkvStore
 
 ## Synopsis

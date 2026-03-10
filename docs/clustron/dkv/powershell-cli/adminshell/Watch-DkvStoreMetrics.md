@@ -1,3 +1,8 @@
+---
+title: Watch-DkvStoreMetrics
+sidebar_position: 6
+---
+
 # Watch-DkvStoreMetrics
 
 ## Synopsis

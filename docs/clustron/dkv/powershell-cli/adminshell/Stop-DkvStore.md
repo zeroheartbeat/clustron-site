@@ -1,3 +1,8 @@
+---
+title: Stop-DkvStore
+sidebar_position: 6
+---
+
 # Stop-DkvStore
 
 ## Synopsis
@@ -261,7 +266,7 @@ Example error:
 
 The cmdlet first queries the manager API:
 
-    GET /admin/v1/stores/{StoreName}
+    GET /admin/v1/stores/&#123;StoreName&#125;
 
 This returns the list of instances associated with the store.
 
@@ -271,11 +276,11 @@ This returns the list of instances associated with the store.
 
 Each instance is stopped using the manager API:
 
-    POST /admin/v1/stores/{StoreName}/instances/{InstanceName}/stop
+    POST /admin/v1/stores/&#123;StoreName&#125;/instances/&#123;InstanceName&#125;/stop
 
 If `-Force` is specified:
 
-    POST /admin/v1/stores/{StoreName}/instances/{InstanceName}/stop?force=true
+    POST /admin/v1/stores/&#123;StoreName&#125;/instances/&#123;InstanceName&#125;/stop?force=true
 
 ------------------------------------------------------------------------
 

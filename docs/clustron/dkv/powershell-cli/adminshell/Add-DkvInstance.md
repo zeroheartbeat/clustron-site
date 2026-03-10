@@ -1,3 +1,8 @@
+---
+title: Add-DkvInstance
+sidebar_position: 1
+---
+
 # Add-DkvInstance
 
 ## Synopsis
@@ -29,7 +34,7 @@ resolved through:
 
 For each target server the cmdlet sends the following API request:
 
-    POST /admin/v1/stores/{StoreName}/instances
+    POST /admin/v1/stores/&#123;StoreName&#125;/instances
 
 ------------------------------------------------------------------------
 

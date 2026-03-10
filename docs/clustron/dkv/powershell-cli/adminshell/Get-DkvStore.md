@@ -33,7 +33,7 @@ The command queries one or more manager servers resolved using:
 The cmdlet calls the following manager APIs:
 
     GET /admin/v1/stores
-    GET /admin/v1/stores/{StoreName}
+    GET /admin/v1/stores/&#123;StoreName&#125;
 
 ------------------------------------------------------------------------
 

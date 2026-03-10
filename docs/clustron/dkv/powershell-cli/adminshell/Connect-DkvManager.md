@@ -1,3 +1,8 @@
+---
+title: Connect-DkvManager
+sidebar_position: 2
+---
+
 # Connect-DkvManager
 
 ## Synopsis
