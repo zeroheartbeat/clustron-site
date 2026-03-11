@@ -42,6 +42,23 @@ const sidebars: SidebarsConfig = {
               items: [
                 {
 				  type: 'category',
+				  label: 'AdminShell',
+				  link: {
+					type: 'doc',
+					id: 'clustron/dkv/powershell-cli/adminshell/overview',
+				  },
+				  items: [
+					'clustron/dkv/powershell-cli/adminshell/Connect-DkvManager',
+					'clustron/dkv/powershell-cli/adminshell/New-DkvStore',
+					'clustron/dkv/powershell-cli/adminshell/Get-DkvStore',
+					'clustron/dkv/powershell-cli/adminshell/Add-DkvInstance',
+					'clustron/dkv/powershell-cli/adminshell/Start-DkvStore',
+					'clustron/dkv/powershell-cli/adminshell/Stop-DkvStore',
+					'clustron/dkv/powershell-cli/adminshell/Watch-DkvStoreMetrics',
+				  ],
+				},
+				{
+				  type: 'category',
 				  label: 'ClientShell',
 				  link: {
 					type: 'doc',
@@ -84,23 +101,7 @@ const sidebars: SidebarsConfig = {
 					'clustron/dkv/powershell-cli/clientshell/Stress-DkvStore',
 				  ],
 				},
-                {
-				  type: 'category',
-				  label: 'AdminShell',
-				  link: {
-					type: 'doc',
-					id: 'clustron/dkv/powershell-cli/adminshell/overview',
-				  },
-				  items: [
-					'clustron/dkv/powershell-cli/adminshell/Connect-DkvManager',
-					'clustron/dkv/powershell-cli/adminshell/New-DkvStore',
-					'clustron/dkv/powershell-cli/adminshell/Get-DkvStore',
-					'clustron/dkv/powershell-cli/adminshell/Add-DkvInstance',
-					'clustron/dkv/powershell-cli/adminshell/Start-DkvStore',
-					'clustron/dkv/powershell-cli/adminshell/Stop-DkvStore',
-					'clustron/dkv/powershell-cli/adminshell/Watch-DkvStoreMetrics',
-				  ],
-				},
+                
               ],
             },
           ],

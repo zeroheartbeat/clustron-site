@@ -50,14 +50,18 @@ const config: Config = {
         theme: {
           customCss: './src/css/custom.css',
         },
+		gtag: {
+		  trackingID: 'G-FDB40P68KW',
+		  anonymizeIP: true,
+		},
       } satisfies Preset.Options,
     ],
   ],
 
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
-
-    colorMode: {
+	
+	colorMode: {
       respectPrefersColorScheme: true,
     },
 
