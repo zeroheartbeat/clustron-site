@@ -12,7 +12,7 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: 'Distributed Key-Value Storage',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('@site/static/img/distributed-key-value-storage.svg').default,
     description: (
       <>
         Clustron DKV provides a high-performance distributed key-value store
@@ -22,7 +22,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Distributed Coordination',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('@site/static/img/distributed-coordination.svg').default,
     description: (
       <>
         Build reliable distributed systems using built-in coordination primitives
@@ -32,7 +32,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Powerful Operational Tooling',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('@site/static/img/operational-tooling.svg').default,
     description: (
       <>
         Manage clusters and automate operations using the Clustron PowerShell CLI

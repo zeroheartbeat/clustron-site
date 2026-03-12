@@ -25,6 +25,13 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  
+	scripts: [
+	  {
+		src: "https://www.clarity.ms/tag/vty0pg5no0",
+		async: true,
+	  },
+	],
 
   presets: [
     [
@@ -61,35 +68,75 @@ const config: Config = {
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
 	
+	announcementBar: {
+	  id: 'clustron_launch',
+	  content:
+		'🚀 Clustron DKV is now available — build reliable distributed systems with .NET',
+	  backgroundColor: '#fde047',
+	  textColor: '#111827',
+	  isCloseable: false,
+	},
+	
 	colorMode: {
-      respectPrefersColorScheme: true,
-    },
+	  defaultMode: 'light',
+	  disableSwitch: true,
+	  respectPrefersColorScheme: false,
+	},
 
+	stylesheets: [
+		{
+		  href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
+		  type: "text/css",
+		},
+	],
     navbar: {
-      title: 'Clustron',
-      logo: {
-        alt: 'Clustron Logo',
-        src: 'img/logo.svg',
-      },
-      items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'docsSidebar',
-          position: 'left',
-          label: 'Docs',
-        },
-        {
-          to: '/blog',
-          label: 'Blog',
-          position: 'left',
-        },
-        {
-          href: 'https://github.com/zeroheartbeat/clustron-dkv',
-          label: 'GitHub',
-          position: 'right',
-        },
-      ],
-    },
+		title: 'Clustron',
+	  logo: {
+		alt: 'Clustron Logo',
+		src: 'img/logo.svg',
+	  },
+	  
+	  
+
+	  items: [
+		{
+		  to: '/download',
+		  label: 'Download',
+		  position: 'left',
+		},
+		
+		{
+		  label: 'Docs',
+		  to: '/docs/clustron/dkv/overview',
+		  position: 'left',
+		},
+
+		{
+		  to: '/blog',
+		  label: 'Blog',
+		  position: 'left',
+		},
+
+		{
+			label: 'Contact Us',
+			to: '/contact',
+			position: 'right',
+			className: 'navbar-contact',
+		  },
+		{
+		  label: 'GitHub',
+		  href: 'https://github.com/zeroheartbeat/clustron-dkv',
+		  position: 'right',
+		},
+
+		{
+		  label: 'Get Started',
+		  to: '/docs/clustron/dkv/getting-started/overview',
+		  position: 'right',
+		  className: 'navbar-cta',
+		},
+	  ],
+	},
 
     footer: {
       style: 'dark',
@@ -134,9 +181,16 @@ const config: Config = {
     },
 
     prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
-    },
+	  theme: prismThemes.github,
+	  darkTheme: prismThemes.dracula,
+
+	  additionalLanguages: [
+		"csharp",
+		"powershell",
+		"bash",
+		"json"
+	  ],
+	},
   } satisfies Preset.ThemeConfig,
 };
 

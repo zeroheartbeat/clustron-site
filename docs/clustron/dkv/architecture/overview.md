@@ -16,30 +16,10 @@ Clustron DKV is evolving into a distributed data foundation rather than a simple
 
 ---
 
-## High-Level Architecture
+## Clustron DKV Architecture
 
-```
-                +-----------------------+
-                |     Client Apps       |
-                |  (.NET Applications)  |
-                +-----------+-----------+
-                            |
-                            v
-                +-----------------------+
-                |   Clustron DKV Node   |
-                +-----------------------+
-                |  Request Pipeline     |
-                |  Segment Store        |
-                |  Index Manager        |
-                |  Expiration Engine    |
-                |  Watch Engine         |
-                |  Lease / Lock Engine  |
-                +-----------+-----------+
-                            |
-                            v
-                +-----------------------+
-                |   Peer DKV Nodes      |
-                +-----------------------+
+![Clustron Architecture](/img/clustron-architecture.png)
+
 ```
 
 Each node operates as an independent process and participates in cluster coordination.

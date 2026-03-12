@@ -1,30 +1,906 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * Global CSS for Clustron
+ * Modern developer platform theme
  */
 
-/* You can override the default Infima variables here. */
+
+/* ------------------------------------------------ */
+/* Modern Developer Font                            */
+/* ------------------------------------------------ */
+
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+
+  --ifm-font-family-base: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --ifm-heading-font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+
+  --ifm-color-primary: #2563eb;
+  --ifm-color-primary-dark: #1e4fd6;
+  --ifm-color-primary-darker: #1c48c4;
+  --ifm-color-primary-darkest: #173a9e;
+
+  --ifm-color-primary-light: #3b82f6;
+  --ifm-color-primary-lighter: #60a5fa;
+  --ifm-color-primary-lightest: #93c5fd;
+
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(0,0,0,0.06);
+
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+main {
+  background: #f8fafc;
+}
+
+
+/* ------------------------------------------------ */
+/* Dark Theme                                       */
+/* ------------------------------------------------ */
+
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  --ifm-color-primary: #3b82f6;
+  --ifm-color-primary-dark: #2563eb;
+  --ifm-color-primary-darker: #1d4ed8;
+  --ifm-color-primary-darkest: #1e3a8a;
+
+  --ifm-color-primary-light: #60a5fa;
+  --ifm-color-primary-lighter: #93c5fd;
+  --ifm-color-primary-lightest: #bfdbfe;
+
+  --docusaurus-highlighted-code-line-bg: rgba(255,255,255,0.08);
+
+}
+
+.header-github-link:before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  display: flex;
+  background: url("https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png") no-repeat;
+  background-size: contain;
+}
+
+/* ------------------------------------------------ */
+/* Announcement Bar                                 */
+/* ------------------------------------------------ */
+
+div[class*="announcementBar"] {
+
+  min-height: 40px !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 !important;
+
+  text-align: center;
+
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+
+}
+
+div[class*="announcementBar"] .container {
+
+  padding: 0 !important;
+  margin: 0 auto;
+
+}
+
+div[class*="announcementBar"] a {
+
+  color: #2563eb;
+  font-weight: 700;
+  text-decoration: none;
+
+}
+
+div[class*="announcementBar"] a:hover {
+
+  text-decoration: underline;
+
+}
+/* ------------------------------------------------ */
+/* NAVBAR                                           */
+/* ------------------------------------------------ */
+
+.navbar {
+  height: 56px;
+  padding: 0 32px;
+
+  background: #f3f3f3;
+
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: none;
+}
+
+.navbar__inner {
+
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 64px;
+
+}
+/* Brand alignment */
+
+.navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-right: 1px solid #e5e7eb;
+  padding-right: 20px;
+  margin-right: 20px;
+}
+
+.navbar__title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.navbar__logo img {
+  height: 30px;
+}
+
+.navbar__link {
+
+  font-size: 13px;
+  font-weight: 700 !important;
+
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  color: #111827 !important;
+
+}
+
+.navbar__link:hover {
+
+  color: #000 !important;
+
+}
+
+.navbar__item {
+
+  margin-right: -2px;
+  color: #1f2937;
+
+}
+
+.navbar__items--right {
+
+  align-items: center;
+
+}
+
+.navbar-cta {
+
+  height: 36px;
+  display: flex;
+  align-items: center;
+
+}
+
+/* Contact button (secondary CTA) */
+
+.navbar-contact {
+
+  border: 1px solid #e5e7eb;
+  padding: 8px 16px;
+
+  border-radius: 6px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  color: #111827 !important;
+
+}
+
+.navbar-contact:hover {
+
+  background: #f3f4f6;
+  color: #000 !important;
+
+}
+
+
+/* ------------------------------------------------ */
+/* Navbar CTA                                       */
+/* ------------------------------------------------ */
+
+.navbar-cta {
+
+  background: #e11d48;
+
+  color: white !important;
+
+  padding: 10px 18px;
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  margin-left: 16px;
+
+  box-shadow: 0 6px 18px rgba(225,29,72,0.25);
+
+}
+
+.navbar-cta:hover {
+
+  background: #be123c;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 10px 25px rgba(225,29,72,0.35);
+
+}
+
+
+/* ------------------------------------------------ */
+/* HERO SECTION                                     */
+/* ------------------------------------------------ */
+
+.hero--primary {
+
+  position: relative;
+  overflow: hidden;
+
+  padding: 100px 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      #dde7f3 0%,
+      #d4e1f0 45%,
+      #cad9eb 100%
+    );
+
+}
+/* Grid background */
+
+.hero--primary::before {
+
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(rgba(0,0,0,0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.012) 1px, transparent 1px);
+
+  background-size: 48px 48px;
+
+}
+
+.hero--primary .container {
+
+  position: relative;
+  z-index: 2;
+
+}
+
+
+/* ------------------------------------------------ */
+/* HERO TYPOGRAPHY                                  */
+/* ------------------------------------------------ */
+
+.hero__title {
+
+  font-size: 3.6rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #020617;
+
+}
+
+.hero__subtitle {
+
+  font-size: 1.5rem;
+  color: #1e293b;
+
+}
+
+.hero--primary p {
+
+  color: #334155;
+  font-weight: 500;
+
+}
+
+
+/* ------------------------------------------------ */
+/* BUTTONS                                          */
+/* ------------------------------------------------ */
+
+.button--primary {
+
+  background: #2563eb;
+  border: none;
+  font-weight: 600;
+
+}
+
+.button--primary:hover {
+
+  background: #1d4ed8;
+
+}
+
+.button--secondary {
+
+  background: #2563eb;
+  color: white;
+  border: none;
+
+}
+
+.button--secondary:hover {
+
+  background: #1e40af;
+
+}
+
+.button--outline {
+
+  border: 2px solid #2563eb;
+  color: #2563eb;
+  font-weight: 600;
+
+}
+
+.button--outline:hover {
+
+  background: #2563eb;
+  color: white;
+
+}
+
+
+/* ------------------------------------------------ */
+/* Primary CTA Button                               */
+/* ------------------------------------------------ */
+
+.button--cta {
+
+  background: #e11d48;
+  color: white;
+  border: none;
+  font-weight: 600;
+
+  box-shadow: 0 6px 20px rgba(225,29,72,0.25);
+
+}
+
+.button--cta:hover {
+
+  background: #be123c;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(225,29,72,0.35);
+
+}
+
+
+/* ------------------------------------------------ */
+/* Section Headings                                 */
+/* ------------------------------------------------ */
+
+h2 {
+
+  color: #1e40af;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 10px;
+  position: relative;
+
+}
+
+h3 {
+
+  color: #1d4ed8;
+  font-weight: 600;
+
+}
+
+h2::after {
+
+  content: "";
+  display: block;
+
+  width: 70px;
+  height: 3px;
+
+  background: #3b82f6;
+
+  margin: 8px auto 0 auto;
+  border-radius: 2px;
+
+}
+
+
+/* ------------------------------------------------ */
+/* Code Blocks                                      */
+/* ------------------------------------------------ */
+
+.theme-code-block {
+
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+
+}
+
+code {
+
+  font-size: 0.95rem;
+
+}
+
+
+/* ------------------------------------------------ */
+/* Section Spacing                                  */
+/* ------------------------------------------------ */
+
+section {
+
+  margin-bottom: 60px;
+
+}
+
+
+/* ------------------------------------------------ */
+/* Capability Strip                                 */
+/* ------------------------------------------------ */
+
+.capability-strip span {
+
+  display: inline-block;
+
+  padding: 6px 16px;
+
+  background: #eef2ff;
+  color: #1e293b;
+
+  border-radius: 20px;
+
+  margin: 6px;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+
+}
+
+
+/* ------------------------------------------------ */
+/* Architecture Image                               */
+/* ------------------------------------------------ */
+
+.arch-image {
+
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+  border-radius: 12px;
+
+}
+
+
+/* ------------------------------------------------ */
+/* MOBILE                                           */
+/* ------------------------------------------------ */
+
+@media (max-width: 996px) {
+
+  .navbar {
+
+    padding: 0 20px;
+
+  }
+
+  .navbar__brand {
+
+    margin-right: 12px;
+
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .hero--primary {
+
+    padding: 60px 20px;
+    background: #f8fbff;
+
+  }
+
+  .hero--primary::before {
+
+    display: none;
+
+  }
+
+  .hero__title {
+
+    font-size: 2.4rem;
+
+  }
+
+  .hero__subtitle {
+
+    font-size: 1.25rem;
+
+  }
+
+  .hero--primary p {
+
+    font-size: 1.05rem;
+    line-height: 1.6;
+
+  }
+
+  .hero--primary .container div {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+
+  }
+
+  .hero--primary .button {
+
+    width: 80%;
+    max-width: 260px;
+
+  }
+
+}
+
+
+/* Capability strip mobile */
+
+@media (max-width: 768px) {
+
+  .capability-strip .container {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+
+  }
+
+  .capability-strip span {
+
+    margin: 4px 6px;
+    white-space: normal;
+
+  }
+
+}
+
+/* ------------------------------------------------ */
+/* Contact Page Layout                              */
+/* ------------------------------------------------ */
+
+.contact-page {
+
+  display: grid;
+  grid-template-columns: 1fr 420px;
+
+  gap: 60px;
+
+  max-width: 1200px;
+  margin: 80px auto;
+
+  padding: 0 20px;
+
+}
+
+
+/* ------------------------------------------------ */
+/* Left Panel                                       */
+/* ------------------------------------------------ */
+
+.contact-left {
+
+  color: white;
+  background: #0f1a44;
+  min-height: 520px;
+  padding: 60px;
+
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+}
+
+.contact-left h1 {
+
+  font-size: 40px;
+  margin-bottom: 16px;
+
+}
+
+.contact-subtitle {
+
+  font-size: 20px;
+  margin-bottom: 40px;
+  opacity: 0.9;
+
+}
+
+.contact-section {
+
+  margin-bottom: 28px;
+
+}
+
+.contact-section h3 {
+
+  color: #8ab4ff;
+  margin-bottom: 6px;
+  font-size: 18px;
+
+}
+
+.contact-section p {
+
+  opacity: 0.85;
+
+}
+
+
+/* ------------------------------------------------ */
+/* Form Card                                        */
+/* ------------------------------------------------ */
+
+.contact-form-card {
+
+  background: #ffffff;
+
+  padding: 40px;
+
+  border-radius: 12px;
+
+  border: 1px solid #f1f5f9;
+
+  box-shadow: 0 16px 50px rgba(0,0,0,0.08);
+
+}
+
+.contact-form-card h2 {
+  margin-bottom: 24px;
+  position: relative;
+  display: inline-block;
+}
+
+.contact-form-card h2::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: -6px;
+
+  width: 60px;
+  height: 3px;
+
+  background: #3b82f6;
+  border-radius: 2px;
+
+}
+
+.contact-form-card form {
+
+  display: flex;
+  flex-direction: column;
+
+}
+
+
+/* ------------------------------------------------ */
+/* Form Labels                                      */
+/* ------------------------------------------------ */
+
+.contact-form-card label {
+
+  margin-top: 14px;
+  font-weight: 600;
+
+}
+
+.contact-form-card label:first-of-type {
+
+  margin-top: 0;
+
+}
+
+
+/* Required fields */
+
+.contact-form-card label[for="email"]::after,
+.contact-form-card label[for="comments"]::after {
+
+  content: " *";
+  color: #e11d48;
+
+}
+
+
+/* ------------------------------------------------ */
+/* Inputs                                           */
+/* ------------------------------------------------ */
+
+.contact-form-card input,
+.contact-form-card textarea {
+
+  margin-top: 6px;
+
+  padding: 12px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+
+  font-size: 14px;
+
+  transition: border-color 0.2s ease,
+              box-shadow 0.2s ease;
+
+}
+
+.contact-form-card input:hover,
+.contact-form-card textarea:hover {
+
+  border-color: #94a3b8;
+
+}
+
+.contact-form-card input:focus,
+.contact-form-card textarea:focus {
+
+  outline: none;
+
+  border-color: #2563eb;
+
+  box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+
+}
+
+
+/* ------------------------------------------------ */
+/* Button                                           */
+/* ------------------------------------------------ */
+
+.contact-form-card button {
+
+  margin-top: 24px;
+
+  width: 100%;
+
+  background: #e11d48;
+  color: white;
+
+  border: none;
+
+  padding: 12px;
+
+  border-radius: 6px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.15s ease;
+
+}
+
+.contact-form-card button:hover {
+
+  background: #be123c;
+
+  transform: translateY(-1px);
+
+}
+
+
+/* ------------------------------------------------ */
+/* Mobile Layout                                    */
+/* ------------------------------------------------ */
+
+@media (max-width: 900px) {
+
+  .contact-page {
+
+    grid-template-columns: 1fr;
+    gap: 40px;
+
+  }
+
+  .contact-left {
+
+    padding: 40px;
+
+  }
+
+}
+
+.footer {
+  background: #eef2f7;
+  color: #1f2937;
+  border-top: 1px solid #e5e7eb;
+}
+
+.footer__links {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px 30px 20px;
+}
+
+.footer__links {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px 30px 20px;
+}
+
+.footer__col {
+  padding-right: 40px;
+}
+
+/* Footer background */
+.footer {
+  background: #eef2f7;
+  color: #1f2937;
+  border-top: 1px solid #e5e7eb;
+}
+
+
+/* Footer column titles */
+.footer__title {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+
+.footer__item a {
+
+  color: #111827;
+
+  font-size: 15px;
+
+  font-weight: 500;
+
+  text-decoration: none;
+
+}
+
+.footer__item a:hover {
+
+  color: #2563eb;
+
+}
+
+
+/* Bottom copyright */
+.footer__bottom {
+  border-top: 1px solid #e5e7eb;
+  margin-top: 40px;
+  padding-top: 20px;
+  color: #6b7280;
+  font-size: 14px;
 }
