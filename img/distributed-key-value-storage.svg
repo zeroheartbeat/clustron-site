@@ -1,0 +1,50 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="320" viewBox="0 0 420 320">
+
+<style>
+.node { fill:#eef3fb; stroke:#5b7bbf; stroke-width:2; }
+.slot { fill:#ffffff; stroke:#9fb4de; stroke-width:1.5; }
+.check { fill:#34c38f; }
+.arrow { stroke:#34c38f; stroke-width:2.5; stroke-dasharray:6 6; fill:none; marker-end:url(#arrow); }
+</style>
+
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+<polygon points="0 0, 8 3, 0 6" fill="#34c38f"/>
+</marker>
+</defs>
+
+<!-- Top node -->
+<g transform="translate(175,20)">
+<rect class="node" width="70" height="90" rx="8"/>
+<rect class="slot" x="10" y="10" width="50" height="18" rx="3"/>
+<rect class="slot" x="10" y="35" width="50" height="18" rx="3"/>
+<rect class="slot" x="10" y="60" width="50" height="18" rx="3"/>
+<circle class="check" cx="52" cy="19" r="4"/>
+<circle class="check" cx="52" cy="44" r="4"/>
+</g>
+
+<!-- Left node -->
+<g transform="translate(60,170)">
+<rect class="node" width="70" height="90" rx="8"/>
+<rect class="slot" x="10" y="10" width="50" height="18" rx="3"/>
+<rect class="slot" x="10" y="35" width="50" height="18" rx="3"/>
+<rect class="slot" x="10" y="60" width="50" height="18" rx="3"/>
+<circle class="check" cx="52" cy="19" r="4"/>
+</g>
+
+<!-- Right node -->
+<g transform="translate(290,170)">
+<rect class="node" width="70" height="90" rx="8"/>
+<rect class="slot" x="10" y="10" width="50" height="18" rx="3"/>
+<rect class="slot" x="10" y="35" width="50" height="18" rx="3"/>
+<rect class="slot" x="10" y="60" width="50" height="18" rx="3"/>
+<circle class="check" cx="52" cy="19" r="4"/>
+</g>
+
+<!-- Arrows -->
+<path class="arrow" d="M210 110 L95 170"/>
+<path class="arrow" d="M210 110 L325 170"/>
+<path class="arrow" d="M130 215 L290 215"/>
+
+</svg>
