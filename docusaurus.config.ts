@@ -99,7 +99,7 @@ const config: Config = {
 	  items: [
 		{
 		  to: '/download',
-		  label: 'Download',
+		  label: 'Downloads',
 		  position: 'left',
 		},
 		
@@ -128,8 +128,8 @@ const config: Config = {
 		},
 
 		{
-		  label: 'Get Started',
-		  to: '/docs/clustron/dkv/getting-started/overview',
+		  label: 'Download',
+		  to: '/download',
 		  position: 'right',
 		  className: 'navbar-cta',
 		},
