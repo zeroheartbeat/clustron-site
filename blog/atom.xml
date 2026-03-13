@@ -2,108 +2,297 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://clustron.io/blog/</id>
     <title>Clustron Blog</title>
-    <updated>2021-08-26T00:00:00.000Z</updated>
+    <updated>2026-03-13T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://clustron.io/blog/"/>
     <subtitle>Clustron Blog</subtitle>
     <icon>https://clustron.io/img/favicon.ico</icon>
     <entry>
-        <title type="html"><![CDATA[Welcome]]></title>
-        <id>https://clustron.io/blog/welcome/</id>
-        <link href="https://clustron.io/blog/welcome/"/>
-        <updated>2021-08-26T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Docusaurus blogging features are powered by the blog plugin.]]></summary>
-        <content type="html"><![CDATA[<p><a href="https://docusaurus.io/docs/blog" target="_blank" rel="noopener noreferrer" class="">Docusaurus blogging features</a> are powered by the <a href="https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog" target="_blank" rel="noopener noreferrer" class="">blog plugin</a>.</p>
-<p>Here are a few tips you might find useful.</p>
-<p>Simply add Markdown files (or folders) to the <code>blog</code> directory.</p>
-<p>Regular blog authors can be added to <code>authors.yml</code>.</p>
-<p>The blog post date can be extracted from filenames, such as:</p>
+        <title type="html"><![CDATA[Distributed Locks Explained]]></title>
+        <id>https://clustron.io/blog/distributed-locks-explained/</id>
+        <link href="https://clustron.io/blog/distributed-locks-explained/"/>
+        <updated>2026-03-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A Practical Guide for .NET Developers]]></summary>
+        <content type="html"><![CDATA[<p><em>A Practical Guide for .NET Developers</em></p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="introduction">Introduction<a href="https://clustron.io/blog/distributed-locks-explained/#introduction" class="hash-link" aria-label="Direct link to Introduction" title="Direct link to Introduction" translate="no">​</a></h2>
+<p>As applications scale across multiple machines, coordination becomes one
+of the most challenging aspects of system design.</p>
+<p>In a single-machine application, mutual exclusion is straightforward.
+Developers can rely on language primitives such as <code>lock</code> in C#,
+<code>Mutex</code>, or <code>Semaphore</code> to ensure that only one thread accesses a shared
+resource at a time.</p>
+<p>However, these primitives only work <strong>within a single process or
+machine</strong>.</p>
+<p>Once applications run across multiple services or nodes, traditional
+locking mechanisms no longer work. Two services running on different
+machines cannot rely on a local <code>lock</code> statement to coordinate access to
+shared state.</p>
+<p>This is where <strong>distributed locks</strong> become essential.</p>
+<p>Distributed locks allow services across a cluster to coordinate access
+to shared resources while ensuring that only one participant holds the
+lock at a given time.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="local-locks-vs-distributed-locks">Local Locks vs Distributed Locks<a href="https://clustron.io/blog/distributed-locks-explained/#local-locks-vs-distributed-locks" class="hash-link" aria-label="Direct link to Local Locks vs Distributed Locks" title="Direct link to Local Locks vs Distributed Locks" translate="no">​</a></h2>
+<p>A typical local lock in C# looks like this:</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">private</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">static</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">readonly</span><span class="token plain"> </span><span class="token class-name keyword" style="color:#00009f">object</span><span class="token plain"> _lock </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">new</span><span class="token plain"> </span><span class="token constructor-invocation class-name keyword" style="color:#00009f">object</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">public</span><span class="token plain"> </span><span class="token return-type class-name keyword" style="color:#00009f">void</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">ProcessOrder</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">lock</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">_lock</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        Console</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WriteLine</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">"Processing order safely."</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre></div></div>
+<p>This works perfectly <strong>inside a single process</strong>.</p>
+<p>However, if your application runs on <strong>multiple service instances</strong>,
+each instance has its own <code>_lock</code> object. The lock no longer coordinates
+work across the system.</p>
+<p>Worker A → lock acquired
+Worker B → lock acquired
+Worker C → lock acquired</p>
+<p>All workers proceed simultaneously, defeating the purpose of locking.</p>
+<p>Distributed systems require a <strong>shared coordination mechanism</strong>.</p>
+<hr>
+<p><img decoding="async" loading="lazy" alt="Distributed Locking" src="https://clustron.io/assets/images/locks-explained-d18d3bec4a244049ab4b2423b54932ea.png" width="1536" height="1024" class="img_ev3q"></p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-idea-behind-distributed-locks">The Idea Behind Distributed Locks<a href="https://clustron.io/blog/distributed-locks-explained/#the-idea-behind-distributed-locks" class="hash-link" aria-label="Direct link to The Idea Behind Distributed Locks" title="Direct link to The Idea Behind Distributed Locks" translate="no">​</a></h2>
+<p>A distributed lock uses a <strong>shared system</strong> to represent lock ownership.</p>
+<p>Instead of locking memory, a node records lock ownership in a
+distributed coordination system such as:</p>
 <ul>
-<li class=""><code>2019-05-30-welcome.md</code></li>
-<li class=""><code>2019-05-30-welcome/index.md</code></li>
+<li class="">a distributed key‑value store</li>
+<li class="">a coordination service</li>
+<li class="">a distributed cache</li>
 </ul>
-<p>A blog post folder can be convenient to co-locate blog post images:</p>
-<p><img decoding="async" loading="lazy" alt="Docusaurus Plushie" src="https://clustron.io/assets/images/docusaurus-plushie-banner-a60f7593abca1e3eef26a9afa244e4fb.jpeg" width="1500" height="500" class="img_ev3q"></p>
-<p>The blog supports tags as well!</p>
-<p><strong>And if you don't want a blog</strong>: just delete this directory, and use <code>blog: false</code> in your Docusaurus config.</p>]]></content>
+<p>Example concept:</p>
+<p>Lock Key: order:123
+Owner: worker‑1</p>
+<p>If another worker attempts to acquire the same lock, the operation fails
+until the lock is released or expires.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="real-world-scenario-distributed-invoice-processing">Real World Scenario: Distributed Invoice Processing<a href="https://clustron.io/blog/distributed-locks-explained/#real-world-scenario-distributed-invoice-processing" class="hash-link" aria-label="Direct link to Real World Scenario: Distributed Invoice Processing" title="Direct link to Real World Scenario: Distributed Invoice Processing" translate="no">​</a></h2>
+<p>Imagine a cluster of workers processing invoices.</p>
+<p>Worker A
+Worker B
+Worker C</p>
+<p>All workers scan for pending invoices.</p>
+<p>Without locking:</p>
+<p>Worker A → processes invoice #101
+Worker B → processes invoice #101
+Worker C → processes invoice #101</p>
+<p>The same invoice could be processed multiple times.</p>
+<p>A distributed lock ensures that <strong>only one worker processes the
+invoice</strong>.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="distributed-locks-with-clustron-dkv">Distributed Locks with Clustron DKV<a href="https://clustron.io/blog/distributed-locks-explained/#distributed-locks-with-clustron-dkv" class="hash-link" aria-label="Direct link to Distributed Locks with Clustron DKV" title="Direct link to Distributed Locks with Clustron DKV" translate="no">​</a></h2>
+<p>Clustron DKV provides built‑in primitives for distributed coordination.</p>
+<p>Locks are managed through the <strong>Locks API</strong>, and operations on locked
+keys must include the correct <strong>lock handle</strong>.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="acquiring-a-lock">Acquiring a Lock<a href="https://clustron.io/blog/distributed-locks-explained/#acquiring-a-lock" class="hash-link" aria-label="Direct link to Acquiring a Lock" title="Direct link to Acquiring a Lock" translate="no">​</a></h2>
+<p>A client first acquires a lock for a specific key.</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token class-name keyword" style="color:#00009f">var</span><span class="token plain"> locks </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">IDkv</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain">client</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Locks</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token class-name keyword" style="color:#00009f">var</span><span class="token plain"> key </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"order:123"</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token class-name keyword" style="color:#00009f">var</span><span class="token plain"> lockHandle </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> locks</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">AcquireAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">key</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> TimeSpan</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">FromSeconds</span><span class="token punctuation" style="color:#393A34">(</span><span class="token number" style="color:#36acaa">10</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">if</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">lockHandle </span><span class="token operator" style="color:#393A34">==</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">null</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Console</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WriteLine</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">"Failed to acquire lock."</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">return</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Console</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WriteLine</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">"Lock acquired."</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<p>The returned <strong>lock handle</strong> represents ownership of the lock.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="performing-operations-under-the-lock">Performing Operations Under the Lock<a href="https://clustron.io/blog/distributed-locks-explained/#performing-operations-under-the-lock" class="hash-link" aria-label="Direct link to Performing Operations Under the Lock" title="Direct link to Performing Operations Under the Lock" translate="no">​</a></h2>
+<p>Once a lock is acquired, operations must include the lock handle.</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token class-name keyword" style="color:#00009f">var</span><span class="token plain"> result </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> client</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">PutAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    key</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string" style="color:#e3116c">"processed"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Put</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WithLock</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">lockHandle</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Handle</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">if</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">result</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">IsSuccess</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Console</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WriteLine</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">"Value updated safely."</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre></div></div>
+<p>Only the lock owner can modify the value.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="reading-with-the-lock">Reading with the Lock<a href="https://clustron.io/blog/distributed-locks-explained/#reading-with-the-lock" class="hash-link" aria-label="Direct link to Reading with the Lock" title="Direct link to Reading with the Lock" translate="no">​</a></h2>
+<p>Reads can also respect the lock ownership.</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token class-name keyword" style="color:#00009f">var</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">value</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> client</span><span class="token punctuation" style="color:#393A34">.</span><span class="token generic-method function" style="color:#d73a49">GetAsync</span><span class="token generic-method generic class-name punctuation" style="color:#393A34">&lt;</span><span class="token generic-method generic class-name keyword" style="color:#00009f">string</span><span class="token generic-method generic class-name punctuation" style="color:#393A34">&gt;</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    key</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Get</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WithLock</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">lockHandle</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Handle</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">if</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">(</span><span class="token keyword" style="color:#00009f">value</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">IsSuccess</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Console</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WriteLine</span><span class="token punctuation" style="color:#393A34">(</span><span class="token interpolation-string string" style="color:#e3116c">$"Value: </span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">{</span><span class="token interpolation-string interpolation expression language-csharp keyword" style="color:#00009f">value</span><span class="token interpolation-string interpolation expression language-csharp punctuation" style="color:#393A34">.</span><span class="token interpolation-string interpolation expression language-csharp">Value</span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">}</span><span class="token interpolation-string string" style="color:#e3116c">"</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre></div></div>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="competing-operations-without-the-lock">Competing Operations Without the Lock<a href="https://clustron.io/blog/distributed-locks-explained/#competing-operations-without-the-lock" class="hash-link" aria-label="Direct link to Competing Operations Without the Lock" title="Direct link to Competing Operations Without the Lock" translate="no">​</a></h2>
+<p>If another worker attempts to modify the key without the lock, the
+operation fails.</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token class-name keyword" style="color:#00009f">var</span><span class="token plain"> attempt </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> client</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">PutAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">key</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"new-value"</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">if</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">(</span><span class="token operator" style="color:#393A34">!</span><span class="token plain">attempt</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">IsSuccess</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Console</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WriteLine</span><span class="token punctuation" style="color:#393A34">(</span><span class="token interpolation-string string" style="color:#e3116c">$"Operation rejected: </span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">{</span><span class="token interpolation-string interpolation expression language-csharp">attempt</span><span class="token interpolation-string interpolation expression language-csharp punctuation" style="color:#393A34">.</span><span class="token interpolation-string interpolation expression language-csharp">Status</span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">}</span><span class="token interpolation-string string" style="color:#e3116c">"</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre></div></div>
+<p>Result:</p>
+<p>KvStatus.Locked</p>
+<p>This prevents concurrent modification of the same resource.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="releasing-the-lock">Releasing the Lock<a href="https://clustron.io/blog/distributed-locks-explained/#releasing-the-lock" class="hash-link" aria-label="Direct link to Releasing the Lock" title="Direct link to Releasing the Lock" translate="no">​</a></h2>
+<p>Once the work is finished, the lock can be released.</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> lockHandle</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">ReleaseAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Console</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WriteLine</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">"Lock released."</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<p>After the lock is released, another worker may acquire it.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="example-cluster-workflow">Example Cluster Workflow<a href="https://clustron.io/blog/distributed-locks-explained/#example-cluster-workflow" class="hash-link" aria-label="Direct link to Example Cluster Workflow" title="Direct link to Example Cluster Workflow" translate="no">​</a></h2>
+<p>Worker A → Acquire Lock → Success
+Worker B → Acquire Lock → Failed
+Worker C → Acquire Lock → Failed</p>
+<p>Worker A → Update Key
+Worker A → Release Lock</p>
+<p>Only one worker performs the operation, ensuring correctness.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="handling-failures">Handling Failures<a href="https://clustron.io/blog/distributed-locks-explained/#handling-failures" class="hash-link" aria-label="Direct link to Handling Failures" title="Direct link to Handling Failures" translate="no">​</a></h2>
+<p>Locks in Clustron are <strong>time‑bound</strong>.</p>
+<p>When acquiring a lock, a duration must be specified:</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> locks</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">AcquireAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">key</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> TimeSpan</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">FromSeconds</span><span class="token punctuation" style="color:#393A34">(</span><span class="token number" style="color:#36acaa">10</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<p>If the client holding the lock crashes or disconnects, the lock
+eventually expires, allowing another worker to acquire it.</p>
+<p>This prevents locks from remaining permanently held.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="best-practices">Best Practices<a href="https://clustron.io/blog/distributed-locks-explained/#best-practices" class="hash-link" aria-label="Direct link to Best Practices" title="Direct link to Best Practices" translate="no">​</a></h2>
+<p>When implementing distributed locks:</p>
+<ul>
+<li class="">Keep critical sections short</li>
+<li class="">Avoid global locks when possible</li>
+<li class="">Partition locks by resource</li>
+<li class="">Always design for failure scenarios</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="final-thoughts">Final Thoughts<a href="https://clustron.io/blog/distributed-locks-explained/#final-thoughts" class="hash-link" aria-label="Direct link to Final Thoughts" title="Direct link to Final Thoughts" translate="no">​</a></h2>
+<p>Distributed locks are one of the most fundamental coordination
+primitives in distributed systems.</p>
+<p>They allow services running across multiple machines to safely
+coordinate access to shared resources while preserving system
+correctness.</p>
+<p>Platforms like <strong>Clustron DKV</strong> simplify this by providing built‑in
+locking primitives, atomic operations, and strong consistency
+guarantees.</p>
+<p>In the next article, we will explore another essential distributed
+systems primitive:</p>
+<p><strong>Leader Election.</strong></p>]]></content>
         <author>
-            <name>Sébastien Lorber</name>
-            <uri>https://sebastienlorber.com</uri>
+            <name>Clustron Team</name>
+            <uri>https://github.com/zeroheartbeat</uri>
         </author>
-        <author>
-            <name>Yangshun Tay</name>
-            <uri>https://linkedin.com/in/yangshun</uri>
-        </author>
-        <category label="Facebook" term="Facebook"/>
-        <category label="Hello" term="Hello"/>
-        <category label="Docusaurus" term="Docusaurus"/>
+        <category label="Distributed Systems" term="Distributed Systems"/>
+        <category label="distributed-locks" term="distributed-locks"/>
+        <category label=".NET" term=".NET"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[MDX Blog Post]]></title>
-        <id>https://clustron.io/blog/mdx-blog-post/</id>
-        <link href="https://clustron.io/blog/mdx-blog-post/"/>
-        <updated>2021-08-01T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Blog posts support Docusaurus Markdown features, such as MDX.]]></summary>
-        <content type="html"><![CDATA[<p>Blog posts support <a href="https://docusaurus.io/docs/markdown-features" target="_blank" rel="noopener noreferrer" class="">Docusaurus Markdown features</a>, such as <a href="https://mdxjs.com/" target="_blank" rel="noopener noreferrer" class="">MDX</a>.</p>
-<div class="theme-admonition theme-admonition-tip admonition_xJq3 alert alert--success"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path></svg></span>tip</div><div class="admonitionContent_BuS1"><p>Use the power of React to create interactive blog posts.</p></div></div>
-<!-- -->
-<p>For example, use JSX to create an interactive button:</p>
-<div class="language-js codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-js codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token operator" style="color:#393A34">&lt;</span><span class="token plain">button onClick</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"> </span><span class="token arrow operator" style="color:#393A34">=&gt;</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">alert</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">'button clicked!'</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">}</span><span class="token operator" style="color:#393A34">&gt;</span><span class="token maybe-class-name">Click</span><span class="token plain"> me</span><span class="token operator" style="color:#393A34">!</span><span class="token operator" style="color:#393A34">&lt;</span><span class="token operator" style="color:#393A34">/</span><span class="token plain">button</span><span class="token operator" style="color:#393A34">&gt;</span><br></span></code></pre></div></div>
-<button>Click me!</button>]]></content>
+        <title type="html"><![CDATA[Building Distributed Systems]]></title>
+        <id>https://clustron.io/blog/building-distributed-systems/</id>
+        <link href="https://clustron.io/blog/building-distributed-systems/"/>
+        <updated>2026-03-11T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A Practical Guide for .NET Developers]]></summary>
+        <content type="html"><![CDATA[<p><em>A Practical Guide for .NET Developers</em></p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="introduction">Introduction<a href="https://clustron.io/blog/building-distributed-systems/#introduction" class="hash-link" aria-label="Direct link to Introduction" title="Direct link to Introduction" translate="no">​</a></h2>
+<p>Most backend systems begin their life on a single machine.</p>
+<p>An ASP.NET Core application processes requests, a database stores application data, and background workers handle asynchronous tasks such as sending emails or generating reports. In this environment, concurrency is manageable and coordination between components is relatively straightforward.</p>
+<p>As the system grows, however, things start to change.</p>
+<p>Traffic increases, more application instances are deployed behind a load balancer, and services begin running across multiple machines. What was once a single application evolves into a distributed system.</p>
+<p>At this point, the nature of the problem changes dramatically.</p>
+<p>The challenges are no longer limited to writing correct business logic. Developers must now deal with coordination across machines, network failures, partial outages, and maintaining consistency across distributed state.</p>
+<p>This is where distributed systems engineering begins.</p>
+<hr>
+<p><img decoding="async" loading="lazy" alt="Distributed Systems Architecture" src="https://clustron.io/assets/images/archtiecture-9fffb59f241d3092b4583974bc19d73b.png" width="1536" height="1024" class="img_ev3q"></p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-is-a-distributed-system">What Is a Distributed System?<a href="https://clustron.io/blog/building-distributed-systems/#what-is-a-distributed-system" class="hash-link" aria-label="Direct link to What Is a Distributed System?" title="Direct link to What Is a Distributed System?" translate="no">​</a></h2>
+<p>A distributed system is a collection of independent computers that appear to the user as a single coherent system.</p>
+<p>Instead of running all logic on one machine, responsibilities are distributed across multiple nodes that communicate over the network.</p>
+<p>Examples include:</p>
+<ul>
+<li class="">Microservice architectures</li>
+<li class="">Distributed databases</li>
+<li class="">Clustered caches</li>
+<li class="">Message queues</li>
+<li class="">Cloud infrastructure platforms</li>
+</ul>
+<p>These systems provide scalability and resilience but introduce new complexities.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-distributed-systems-are-hard">Why Distributed Systems Are Hard<a href="https://clustron.io/blog/building-distributed-systems/#why-distributed-systems-are-hard" class="hash-link" aria-label="Direct link to Why Distributed Systems Are Hard" title="Direct link to Why Distributed Systems Are Hard" translate="no">​</a></h2>
+<p>Unlike a single-machine application, distributed systems must deal with realities such as:</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="network-failures">Network Failures<a href="https://clustron.io/blog/building-distributed-systems/#network-failures" class="hash-link" aria-label="Direct link to Network Failures" title="Direct link to Network Failures" translate="no">​</a></h3>
+<p>In distributed systems, communication happens over a network. Networks can be slow, unreliable, or temporarily unavailable.</p>
+<p>A request may fail because the remote node crashed, because the network dropped packets, or because a timeout occurred.</p>
+<p>The system must handle these scenarios gracefully.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="partial-failures">Partial Failures<a href="https://clustron.io/blog/building-distributed-systems/#partial-failures" class="hash-link" aria-label="Direct link to Partial Failures" title="Direct link to Partial Failures" translate="no">​</a></h3>
+<p>In a distributed system, components can fail independently.</p>
+<p>One node in a cluster might crash while others remain healthy. A service instance may restart while other services continue running.</p>
+<p>This means the system must operate correctly even when only part of it is functioning.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="consistency-challenges">Consistency Challenges<a href="https://clustron.io/blog/building-distributed-systems/#consistency-challenges" class="hash-link" aria-label="Direct link to Consistency Challenges" title="Direct link to Consistency Challenges" translate="no">​</a></h3>
+<p>When data is replicated across multiple nodes, keeping it consistent becomes difficult.</p>
+<p>For example:</p>
+<ul>
+<li class="">Two nodes may attempt to update the same data simultaneously.</li>
+<li class="">Network delays may cause nodes to temporarily disagree about the current state.</li>
+<li class="">A node might crash after performing only part of an operation.</li>
+</ul>
+<p>Designing systems that maintain consistent state despite these scenarios requires careful coordination.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-building-blocks-of-distributed-systems">Key Building Blocks of Distributed Systems<a href="https://clustron.io/blog/building-distributed-systems/#key-building-blocks-of-distributed-systems" class="hash-link" aria-label="Direct link to Key Building Blocks of Distributed Systems" title="Direct link to Key Building Blocks of Distributed Systems" translate="no">​</a></h2>
+<p>Most distributed systems rely on a few core primitives.</p>
+<p>Understanding these primitives helps developers design reliable architectures.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="distributed-storage">Distributed Storage<a href="https://clustron.io/blog/building-distributed-systems/#distributed-storage" class="hash-link" aria-label="Direct link to Distributed Storage" title="Direct link to Distributed Storage" translate="no">​</a></h3>
+<p>Data must often be stored across multiple machines.</p>
+<p>This enables:</p>
+<ul>
+<li class="">horizontal scaling</li>
+<li class="">fault tolerance</li>
+<li class="">high availability</li>
+</ul>
+<p>Distributed key-value stores are commonly used for this purpose.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="coordination">Coordination<a href="https://clustron.io/blog/building-distributed-systems/#coordination" class="hash-link" aria-label="Direct link to Coordination" title="Direct link to Coordination" translate="no">​</a></h3>
+<p>Nodes must coordinate actions such as:</p>
+<ul>
+<li class="">leader election</li>
+<li class="">distributed locking</li>
+<li class="">cluster membership</li>
+<li class="">configuration updates</li>
+</ul>
+<p>Without coordination mechanisms, multiple nodes might attempt conflicting operations.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="consensus">Consensus<a href="https://clustron.io/blog/building-distributed-systems/#consensus" class="hash-link" aria-label="Direct link to Consensus" title="Direct link to Consensus" translate="no">​</a></h3>
+<p>Some systems require strong guarantees about shared state.</p>
+<p>Consensus algorithms such as <strong>Raft</strong> or <strong>Paxos</strong> allow nodes to agree on decisions even in the presence of failures.</p>
+<p>These algorithms are fundamental to distributed databases and coordination services.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="partitioning-and-replication">Partitioning and Replication<a href="https://clustron.io/blog/building-distributed-systems/#partitioning-and-replication" class="hash-link" aria-label="Direct link to Partitioning and Replication" title="Direct link to Partitioning and Replication" translate="no">​</a></h3>
+<p>Data is typically:</p>
+<ul>
+<li class=""><strong>partitioned</strong> across nodes to distribute load</li>
+<li class=""><strong>replicated</strong> to protect against failures</li>
+</ul>
+<p>Balancing performance, availability, and consistency is one of the core design challenges.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="common-distributed-system-patterns">Common Distributed System Patterns<a href="https://clustron.io/blog/building-distributed-systems/#common-distributed-system-patterns" class="hash-link" aria-label="Direct link to Common Distributed System Patterns" title="Direct link to Common Distributed System Patterns" translate="no">​</a></h2>
+<p>Several patterns appear repeatedly in real-world systems.</p>
+<p>Examples include:</p>
+<ul>
+<li class="">Leader election for coordinating cluster activities</li>
+<li class="">Distributed locks for ensuring mutual exclusion</li>
+<li class="">Job queues for asynchronous processing</li>
+<li class="">Rate limiters for controlling request volume</li>
+<li class="">Transaction protocols for atomic multi-node updates</li>
+</ul>
+<p>These patterns form the foundation of many large-scale platforms.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-role-of-coordination-systems">The Role of Coordination Systems<a href="https://clustron.io/blog/building-distributed-systems/#the-role-of-coordination-systems" class="hash-link" aria-label="Direct link to The Role of Coordination Systems" title="Direct link to The Role of Coordination Systems" translate="no">​</a></h2>
+<p>To simplify distributed development, many organizations rely on coordination systems such as:</p>
+<ul>
+<li class="">etcd</li>
+<li class="">ZooKeeper</li>
+<li class="">Consul</li>
+</ul>
+<p>These systems provide primitives such as:</p>
+<ul>
+<li class="">leader election</li>
+<li class="">distributed locks</li>
+<li class="">cluster membership</li>
+<li class="">configuration storage</li>
+</ul>
+<p>Applications can then build higher-level behavior on top of these primitives.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="distributed-systems-in-the-net-ecosystem">Distributed Systems in the .NET Ecosystem<a href="https://clustron.io/blog/building-distributed-systems/#distributed-systems-in-the-net-ecosystem" class="hash-link" aria-label="Direct link to Distributed Systems in the .NET Ecosystem" title="Direct link to Distributed Systems in the .NET Ecosystem" translate="no">​</a></h2>
+<p>While distributed infrastructure tools are often associated with other ecosystems, .NET applications increasingly operate in distributed environments.</p>
+<p>Modern .NET systems frequently use:</p>
+<ul>
+<li class="">Kubernetes</li>
+<li class="">distributed caches</li>
+<li class="">microservices</li>
+<li class="">event-driven architectures</li>
+</ul>
+<p>As a result, coordination and distributed state management are becoming increasingly important for .NET developers as well.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="final-thoughts">Final Thoughts<a href="https://clustron.io/blog/building-distributed-systems/#final-thoughts" class="hash-link" aria-label="Direct link to Final Thoughts" title="Direct link to Final Thoughts" translate="no">​</a></h2>
+<p>Building distributed systems is fundamentally different from building traditional single-machine applications.</p>
+<p>The challenges of network communication, partial failures, and data consistency introduce complexities that require specialized patterns and infrastructure.</p>
+<p>Fortunately, by understanding the key building blocks — storage, coordination, consensus, and replication — developers can design systems that scale reliably and remain resilient in the face of failures.</p>
+<p>In future articles, we will explore some of these primitives in more detail, including leader election, distributed coordination patterns, and practical implementations in .NET.</p>]]></content>
         <author>
-            <name>Sébastien Lorber</name>
-            <uri>https://sebastienlorber.com</uri>
+            <name>Clustron Team</name>
+            <uri>https://github.com/zeroheartbeat</uri>
         </author>
-        <category label="Docusaurus" term="Docusaurus"/>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Long Blog Post]]></title>
-        <id>https://clustron.io/blog/long-blog-post/</id>
-        <link href="https://clustron.io/blog/long-blog-post/"/>
-        <updated>2019-05-29T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[This is the summary of a very long blog post,]]></summary>
-        <content type="html"><![CDATA[<p>This is the summary of a very long blog post,</p>
-<p>Use a <code>&lt;!--</code> <code>truncate</code> <code>--&gt;</code> comment to limit blog post size in the list view.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content>
-        <author>
-            <name>Yangshun Tay</name>
-            <uri>https://linkedin.com/in/yangshun</uri>
-        </author>
-        <category label="Hello" term="Hello"/>
-        <category label="Docusaurus" term="Docusaurus"/>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[First Blog Post]]></title>
-        <id>https://clustron.io/blog/first-blog-post/</id>
-        <link href="https://clustron.io/blog/first-blog-post/"/>
-        <updated>2019-05-28T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Lorem ipsum dolor sit amet...]]></summary>
-        <content type="html"><![CDATA[<p>Lorem ipsum dolor sit amet...</p>
-<p>...consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content>
-        <author>
-            <name>Sébastien Lorber</name>
-            <uri>https://sebastienlorber.com</uri>
-        </author>
-        <author>
-            <name>Yangshun Tay</name>
-            <uri>https://linkedin.com/in/yangshun</uri>
-        </author>
-        <category label="Hola" term="Hola"/>
-        <category label="Docusaurus" term="Docusaurus"/>
+        <category label="Distributed Systems" term="Distributed Systems"/>
+        <category label=".NET" term=".NET"/>
+        <category label="Architecture" term="Architecture"/>
     </entry>
 </feed>
