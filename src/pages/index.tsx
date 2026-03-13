@@ -14,7 +14,7 @@ function HomepageHeader() {
 
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
+      <div className="container text--center">
 
         <Heading as="h1" className="hero__title">
           Clustron
@@ -70,7 +70,7 @@ export default function Home(): ReactNode {
           fontWeight: 500
         }}
       >
-        <div className="container">
+        <div className="container text--center">
 
           <span>Distributed Key-Value</span>
           <span>Leader Election</span>
@@ -91,7 +91,7 @@ export default function Home(): ReactNode {
           background: "var(--ifm-color-emphasis-100)"
         }}
       >
-        <div className="container">
+        <div className="container text--center">
 
           <p
             style={{
@@ -124,7 +124,7 @@ export default function Home(): ReactNode {
 
         {/* Architecture */}
         <section style={{textAlign: "center", marginTop: "4rem"}}>
-          <div className="container">
+          <div className="container text--center">
 
             <h2>Clustron Architecture</h2>
 
@@ -150,7 +150,7 @@ export default function Home(): ReactNode {
 
         {/* Use Cases */}
         <section style={{marginTop: "5rem"}}>
-          <div className="container">
+          <div className="container text--center">
 
             <h2 style={{textAlign: "center"}}>What You Can Build with Clustron</h2>
 
@@ -199,7 +199,7 @@ export default function Home(): ReactNode {
 
         {/* Why Clustron */}
         <section style={{marginTop: "5rem"}}>
-          <div className="container">
+          <div className="container text--center">
 
             <h2 style={{textAlign: "center"}}>Why Clustron?</h2>
 
@@ -267,7 +267,7 @@ export default function Home(): ReactNode {
 
         {/* Quick Start */}
         <section style={{marginTop: "5rem"}}>
-          <div className="container">
+          <div className="container text--center">
 
             <h2 style={{textAlign: "center"}}>Get Started in 30 Seconds</h2>
 

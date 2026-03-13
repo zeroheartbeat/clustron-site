@@ -1,19 +1,29 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+distributed-systems:
+  label: Distributed Systems
+  permalink: /distributed-systems
+  description: Articles about distributed systems architecture and design.
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+dotnet:
+  label: .NET
+  permalink: /dotnet
+  description: Distributed systems and infrastructure development in .NET.
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+coordination:
+  label: Distributed Coordination
+  permalink: /distributed-coordination
+  description: Leader election, locking, and coordination primitives.
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+architecture:
+  label: Architecture
+  permalink: /architecture
+  description: System architecture patterns and infrastructure design.
+
+clustron:
+  label: Clustron
+  permalink: /clustron
+  description: Articles related to Clustron distributed key-value store.
+
+distributed-patterns:
+  label: Distributed Patterns
+  permalink: /distributed-patterns
+  description: Common patterns used in distributed systems.

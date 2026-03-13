@@ -71,7 +71,7 @@ const config: Config = {
 	announcementBar: {
 	  id: 'clustron_launch',
 	  content:
-		'🚀 Clustron DKV (Beta) is now available — build reliable distributed systems with .NET',
+	  '🚀 Clustron DKV (<span style="color:#ef4444;font-weight:700">Beta</span>) is now available — build reliable distributed systems with .NET',
 	  backgroundColor: '#fde047',
 	  textColor: '#111827',
 	  isCloseable: false,
@@ -159,7 +159,7 @@ const config: Config = {
             },
             {
               label: 'X',
-              href: 'https://x.com',
+              href: 'https://x.com/clustron',
             },
           ],
         },

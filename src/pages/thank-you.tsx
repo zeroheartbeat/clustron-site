@@ -21,22 +21,29 @@ export default function ThankYou() {
 
       <div className="container margin-top--xl margin-bottom--xl">
 
-        <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
+        {/* Header */}
 
-          <h1>Download Started</h1>
+        <div style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
+
+          <h1 style={{ fontSize: 40 }}>
+            🎉 Download Started
+          </h1>
 
           <p style={{ fontSize: 18, color: "#475569" }}>
-            Thank you for downloading <strong>Clustron</strong>.
+            Thank you for downloading <strong>Clustron DKV</strong>.
           </p>
 
-          <p>Your download should begin automatically.</p>
-
-          <p style={{ marginBottom: 40 }}>
-            If it doesn't start,
-            <a href={downloadUrl} style={{ marginLeft: 6 }}>
-              click here to download manually
-            </a>.
+          <p style={{ marginTop: 10 }}>
+            Your download should begin automatically.
           </p>
+
+          <a
+            href={downloadUrl}
+            className="button button--primary button--lg"
+            style={{ marginTop: 20 }}
+          >
+            Download Again
+          </a>
 
         </div>
 
@@ -44,8 +51,8 @@ export default function ThankYou() {
 
         <div
           style={{
-            maxWidth: 720,
-            margin: "0 auto",
+            maxWidth: 900,
+            margin: "60px auto 0",
             padding: 40,
             background: "#ffffff",
             border: "1px solid #e5e7eb",
@@ -57,14 +64,11 @@ export default function ThankYou() {
             Next Steps
           </h2>
 
-          {/* Resource Cards */}
-
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(2,1fr)",
-              gap: 20,
-              marginTop: 30
+              gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
+              gap: 20
             }}
           >
 
@@ -81,7 +85,7 @@ export default function ThankYou() {
               to="/docs/clustron/dkv/architecture/overview/"
             >
               <h3>Architecture</h3>
-              <p>Learn how Clustron distributes data and coordinates nodes.</p>
+              <p>Understand how Clustron distributes data across nodes.</p>
             </Link>
 
             <Link
@@ -89,7 +93,7 @@ export default function ThankYou() {
               to="/docs/clustron/dkv/overview/"
             >
               <h3>Documentation</h3>
-              <p>Complete guides for developers and operators.</p>
+              <p>Explore guides for developers and operators.</p>
             </Link>
 
             <Link
@@ -97,15 +101,25 @@ export default function ThankYou() {
               to="/docs/clustron/dkv/powershell-cli/overview/"
             >
               <h3>PowerShell CLI</h3>
-              <p>Manage stores and clusters using Clustron CLI tools.</p>
+              <p>Manage clusters and stores from the command line.</p>
             </Link>
+			
+			<a
+			  className="card padding--md"
+			  href="https://github.com/zeroheartbeat/clustron-dkv/tree/main/Samples"
+			  target="_blank"
+			  rel="noopener noreferrer"
+			>
+			  <h3>Samples</h3>
+			  <p>Explore ready-to-run examples demonstrating Clustron features.</p>
+			</a>
 
           </div>
 
           <div style={{ textAlign: "center", marginTop: 40 }}>
 
             <Link
-              className="button button--primary button--lg"
+              className="button button--secondary button--lg"
               to="/docs/clustron/dkv/getting-started/overview/"
             >
               View Installation Guide

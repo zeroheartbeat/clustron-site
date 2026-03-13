@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Layout from "@theme/Layout";
+import Link from "@docusaurus/Link";
 
 export default function Contact() {
 
@@ -36,8 +37,13 @@ export default function Contact() {
           <h1>Contact Us</h1>
 
           <p className="contact-subtitle">
-            You'll hear from us within 24 hours.
-          </p>
+			  You can contact us directly at{" "}
+			  <Link href="mailto:support@clustron.io">
+				  support@clustron.io
+				</Link>
+			  <br />
+			  We usually respond within 24 hours.
+			</p>
 
           <div className="contact-section">
             <h3>Need Support?</h3>
