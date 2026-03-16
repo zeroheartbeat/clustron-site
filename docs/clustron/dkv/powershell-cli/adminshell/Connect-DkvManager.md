@@ -7,252 +7,243 @@ sidebar_position: 2
 
 ## Synopsis
 
-Connects the current PowerShell session to one or more **Clustron DKV
-management servers**.
+Connects the current PowerShell session to one or more **Clustron DKV Manager services**.
 
-## Description
+---
 
-`Connect-DkvManager` establishes a management context used by all other
-Clustron administrative cmdlets.
+# Description
 
-Once connected, the selected manager servers become the **default
-target** for subsequent administrative operations such as:
+`Connect-DkvManager` establishes a **manager context** used by all other Clustron administrative cmdlets.
 
--   Creating stores
--   Starting and stopping stores
--   Adding instances
--   Monitoring metrics
+Once connected, the specified manager endpoints become the **default targets** for subsequent administrative operations such as:
 
-The connection information is stored in the **PowerShell session
-context**, meaning you only need to connect once per session.
+- Creating stores
+- Starting and stopping nodes
+- Adding instances
+- Monitoring metrics
 
-If a connection already exists, the cmdlet will fail unless `-Force` is
-specified.
+The connection information is stored in the **PowerShell session context**, meaning you only need to connect once per session.
 
-------------------------------------------------------------------------
+If a connection already exists, the cmdlet fails unless **`-Force`** is specified.
+
+In a Clustron deployment, the **Manager service runs on each cluster server**. Administrative operations must therefore be executed on **all manager services participating in the cluster**.
+
+For this reason, `Connect-DkvManager` accepts **multiple manager endpoints** representing the full set of cluster managers. Subsequent administrative commands will execute operations against **all connected managers** to keep the cluster configuration consistent.
+
+If one or more managers are unavailable, administrative operations may fail because the operation cannot be applied across the entire cluster.
+
+---
 
 # Syntax
 
-``` powershell
-Connect-DkvManager -Servers <string[]> [-Port <int>] [-Force]
+```powershell
+Connect-DkvManager -Managers <string[]> [-Port <int>] [-Force]
 ```
 
-------------------------------------------------------------------------
+---
 
 # Parameters
 
-## -Servers
+## -Managers
 
-One or more Clustron management servers to connect to.
+One or more Clustron **Manager service endpoints** to connect to.
 
-Servers may be specified in multiple formats:
+Managers may be specified in multiple formats:
 
-  Format        Example
-  ------------- -----------------------
-  Hostname      node1
-  Host + port   node1:7800
-  IP address    10.0.0.11
-  Full URI      http://10.0.0.11:7800
-
-Multiple servers can be specified to allow **manager failover**.
+| Format | Example |
+|------|------|
+| Hostname | server1 |
+| Host + port | server1:7801 |
+| IP address | 10.0.0.11 |
+| Full URI | http://10.0.0.11:7801 |
 
 Example:
 
-``` powershell
--Servers 10.0.0.11,10.0.0.12,10.0.0.13
+```powershell
+-Managers 10.0.0.11,10.0.0.12,10.0.0.13
 ```
 
 Required: **Yes**
 
-------------------------------------------------------------------------
+---
 
 ## -Port
 
-Default management port used when the port is not explicitly specified
-in `-Servers`.
+Default manager port used when a port is not explicitly specified in `-Managers`.
 
 Default value:
 
-    7800
+```
+7801
+```
 
 Example:
 
-``` powershell
--Port 7800
+```powershell
+-Port 7801
 ```
 
 Required: **No**
 
-------------------------------------------------------------------------
+---
 
 ## -Force
 
 Forces replacement of an existing manager connection.
 
-If a connection already exists, the cmdlet normally fails to prevent
-accidental context replacement.
+If a connection already exists, the cmdlet normally fails to prevent accidental context replacement.
 
-Using `-Force` clears the current context and replaces it with the new
-manager list.
+Using `-Force` clears the current context and replaces it with the new manager list.
 
 Required: **No**
 
-------------------------------------------------------------------------
+---
 
 # Examples
 
-## Example 1 --- Connect to a single manager node
+## Example 1 — Connect to a single manager
 
-``` powershell
-Connect-DkvManager -Servers 10.0.0.11
+```powershell
+Connect-DkvManager -Managers 10.0.0.11
 ```
 
 Output:
 
-    Servers         : http://10.0.0.11:7800
-    ConnectedAtUtc  : 2026-03-08T12:30:10Z
-    Success         : True
-
-------------------------------------------------------------------------
-
-## Example 2 --- Connect to multiple manager nodes (recommended)
-
-``` powershell
-Connect-DkvManager -Servers 10.0.0.11,10.0.0.12,10.0.0.13
+```
+Manager               Action        Result   Message
+----------------------------------------------------
+10.0.0.11:7801        Connect       SUCCESS  Connected
 ```
 
-This configuration allows automatic failover if one manager node becomes
-unavailable.
+---
 
-------------------------------------------------------------------------
+## Example 2 — Connect to multiple cluster managers
 
-## Example 3 --- Specify servers with explicit ports
-
-``` powershell
-Connect-DkvManager -Servers 10.0.0.11:7800,10.0.0.12:7800
+```powershell
+Connect-DkvManager -Managers 10.0.0.11,10.0.0.12,10.0.0.13
 ```
 
-------------------------------------------------------------------------
+This connects the PowerShell session to **all cluster managers** so that administrative operations can be executed across the entire cluster.
 
-## Example 4 --- Use full HTTP URIs
+---
 
-``` powershell
-Connect-DkvManager -Servers http://10.0.0.11:7800,http://10.0.0.12:7800
+## Example 3 — Specify managers with explicit ports
+
+```powershell
+Connect-DkvManager -Managers 10.0.0.11:7801,10.0.0.12:7801
 ```
 
-------------------------------------------------------------------------
+---
 
-## Example 5 --- Override the default port
+## Example 4 — Use full HTTP URIs
 
-``` powershell
-Connect-DkvManager -Servers 10.0.0.11,10.0.0.12 -Port 7800
+```powershell
+Connect-DkvManager -Managers http://10.0.0.11:7801,http://10.0.0.12:7801
 ```
 
-When a port is not specified per server, the value provided via `-Port`
-is used.
+---
 
-------------------------------------------------------------------------
+## Example 5 — Override the default port
 
-## Example 6 --- Replace an existing connection
+```powershell
+Connect-DkvManager -Managers 10.0.0.11,10.0.0.12 -Port 7801
+```
 
-``` powershell
-Connect-DkvManager -Servers 10.0.0.11,10.0.0.12 -Force
+When a port is not specified per manager, the value provided via `-Port` is used.
+
+---
+
+## Example 6 — Replace an existing connection
+
+```powershell
+Connect-DkvManager -Managers 10.0.0.11,10.0.0.12 -Force
 ```
 
 This clears the existing manager context and replaces it.
 
-------------------------------------------------------------------------
+---
 
-## Example 7 --- Connect using hostnames
+## Example 7 — Connect using hostnames
 
-``` powershell
-Connect-DkvManager -Servers node1,node2,node3
+```powershell
+Connect-DkvManager -Managers server1,server2,server3
 ```
 
-Hostnames must resolve to reachable cluster nodes.
+Hostnames must resolve to reachable cluster managers.
 
-------------------------------------------------------------------------
+---
 
 # Output
 
-The cmdlet returns an object containing the connection information.
+`Connect-DkvManager` writes the connection results to the console in table format.
 
-  -----------------------------------------------------------------------
-  Property                            Description
-  ----------------------------------- -----------------------------------
-  Servers                             Normalized server URIs used for the
-                                      manager connection
+Example:
 
-  ConnectedAtUtc                      UTC timestamp when the connection
-                                      was established
+```
+Manager               Action        Result   Message
+----------------------------------------------------
+10.0.0.11:7801        Connect       SUCCESS  Connected
+10.0.0.12:7801        Connect       SUCCESS  Connected
+10.0.0.13:7801        Connect       SUCCESS  Connected
+```
 
-  Success                             Indicates whether the connection
-                                      was successfully established
-  -----------------------------------------------------------------------
+The cmdlet **does not return an object**. Instead, it stores the manager connection information in the **PowerShell session context**.
 
-Example output:
-
-    Servers         : http://10.0.0.11:7800
-    ConnectedAtUtc  : 2026-03-08T12:30:10Z
-    Success         : True
-
-------------------------------------------------------------------------
+---
 
 # Notes
 
-### Manager Context
+## Manager Context
 
-Once connected, the manager servers are stored in the **session manager
-context**.\
+Once connected, the manager endpoints are stored in the **session manager context**.
+
 Subsequent administrative cmdlets automatically use this context.
 
 Example:
 
-``` powershell
-Connect-DkvManager -Servers 10.0.0.11,10.0.0.12
+```powershell
+Connect-DkvManager -Managers 10.0.0.11,10.0.0.12
 
 New-DkvStore -Name OrdersStore
 ```
 
-The store creation command will automatically target the connected
-manager servers.
+The store creation command will automatically target the connected managers.
 
-------------------------------------------------------------------------
+---
 
-### Invalid Addresses
+## Invalid Addresses
 
 The following addresses are **not allowed** as connection targets:
 
-    0.0.0.0
-    ::
-    ::0
+```
+0.0.0.0
+::
+::0
+```
 
-These represent unspecified bind addresses and cannot be used to
-initiate connections.
+These represent unspecified bind addresses and cannot be used to initiate connections.
 
-------------------------------------------------------------------------
+---
 
-### Recommended Production Configuration
+## Recommended Production Configuration
 
-For production environments it is recommended to connect to **multiple
-manager nodes**.
+For production environments, connect to **all cluster manager services**.
 
 Example:
 
-``` powershell
-Connect-DkvManager -Servers 10.0.0.11,10.0.0.12,10.0.0.13
+```powershell
+Connect-DkvManager -Managers 10.0.0.11,10.0.0.12,10.0.0.13
 ```
 
-This ensures the PowerShell session remains functional even if a manager
-node becomes unavailable.
+This ensures administrative operations are executed consistently across the cluster.
 
-------------------------------------------------------------------------
+---
 
 # Related Cmdlets
 
--   Add-DkvInstance
--   New-DkvStore
--   Start-DkvStore
--   Stop-DkvStore
--   Get-DkvStore
--   Watch-DkvStoreMetrics
+- Add-DkvInstance
+- New-DkvStore
+- Start-DkvStore
+- Stop-DkvStore
+- Get-DkvStore
+- Watch-DkvStoreMetrics

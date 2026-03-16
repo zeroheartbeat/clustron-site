@@ -24,7 +24,7 @@
 
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0,0,0,0.06);
-
+  --prism-background-color: #f1f5f9;
 }
 
 main {
@@ -958,4 +958,57 @@ section {
   padding-top: 20px;
   color: #6b7280;
   font-size: 14px;
+}
+
+/* Landing page code block override */
+
+.heroBanner .theme-code-block,
+.heroBanner pre {
+  background: rgba(255,255,255,0.85) !important;
+  border-radius: 12px;
+}
+
+.heroBanner .theme-code-block-title {
+  background: rgba(255,255,255,0.95) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Override Prism code block background */
+
+.theme-code-block pre {
+  background-color: #f1f5f9 !important;
+}
+
+.theme-code-block {
+  background-color: #f1f5f9 !important;
+}
+
+.theme-code-block-title {
+  background-color: #e8eef7 !important;
+}
+
+/* ------------------------------------------------ */
+/* FORCE PRISM CODE BLOCK BACKGROUND                */
+/* ------------------------------------------------ */
+
+pre.prism-code {
+  background: #f1f5f9 !important;
+}
+
+.theme-code-block {
+  background: transparent !important;
+}
+
+.theme-code-block-title {
+  background: #e8eef7 !important;
+}
+
+/* Hero code block styling */
+
+.hero--primary pre.prism-code {
+  background: rgba(255,255,255,0.9) !important;
+}
+
+.hero--primary .theme-code-block-title {
+  background: rgba(255,255,255,0.95) !important;
 }

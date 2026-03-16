@@ -7,23 +7,21 @@ sidebar_position: 6
 
 ## Synopsis
 
-Displays **live runtime metrics** for a Clustron Distributed Key-Value
-(DKV) store in a continuously updating console view.
+Displays **live runtime metrics** for a Clustron Distributed Key-Value (DKV) store in a continuously updating console view.
 
-## Description
+---
 
-`Watch-DkvStoreMetrics` provides a **real‑time monitoring view** of
-store metrics across cluster nodes.
+# Description
 
-The cmdlet periodically queries the Clustron manager API and renders a
-**metrics table** in the PowerShell console. The display updates
-continuously at a configurable refresh interval.
+`Watch-DkvStoreMetrics` provides a **real‑time monitoring view** of store metrics across cluster nodes.
+
+The cmdlet periodically queries the Clustron manager API and renders a **metrics table** in the PowerShell console. The display updates continuously at a configurable refresh interval.
 
 Metrics are grouped by:
 
--   **Category**
--   **Metric name**
--   **Cluster node**
+- **Category**
+- **Metric name**
+- **Cluster node**
 
 Each metric cell displays:
 
@@ -35,32 +33,30 @@ Example:
 
 Where:
 
--   `Rate/sec` is the average rate calculated over the recent sampling
-    window
--   `Total` is the cumulative metric value
+- `Rate/sec` is the average rate calculated over the recent sampling window
+- `Total` is the cumulative metric value
 
-The view automatically refreshes in place until the command is cancelled
-(Ctrl+C).
+The view automatically refreshes in place until the command is cancelled (Ctrl+C).
 
 Internally the cmdlet queries the manager metrics endpoint:
 
     GET /admin/v1/metrics?windowSec=5
 
-------------------------------------------------------------------------
+---
 
 # Syntax
 
-``` powershell
-Watch-DkvStoreMetrics -StoreName <string> [-RefreshSec <int>] [-Servers <string[]>]
+```powershell
+Watch-DkvStoreMetrics -StoreName <string> [-RefreshSec <int>] [-Managers <string[]>]
 ```
 
 Optional parameters inherited from `DkvCmdletBase`:
 
-``` powershell
+```powershell
 [-Port <int>] [-TimeoutSec <int>]
 ```
 
-------------------------------------------------------------------------
+---
 
 # Parameters
 
@@ -74,7 +70,7 @@ Example:
 
 Required: **Yes**
 
-------------------------------------------------------------------------
+---
 
 ## -RefreshSec
 
@@ -90,35 +86,35 @@ Default:
 
 Example:
 
-``` powershell
+```powershell
 -RefreshSec 2
 ```
 
-------------------------------------------------------------------------
+---
 
-## -Servers
+## -Managers
 
-Target Clustron manager servers.
+Target Clustron manager services.
 
 Example:
 
-``` powershell
--Servers 10.0.0.11,10.0.0.12
+```powershell
+-Managers 10.0.0.11,10.0.0.12
 ```
 
 If omitted, the cmdlet uses the active `Connect-DkvManager` session.
 
-------------------------------------------------------------------------
+---
 
 ## -Port
 
-Manager API port used when resolving servers.
+Manager API port used when resolving managers.
 
 Default:
 
-    7800
+    7801
 
-------------------------------------------------------------------------
+---
 
 ## -TimeoutSec
 
@@ -128,62 +124,62 @@ Default:
 
     30 seconds
 
-------------------------------------------------------------------------
+---
 
 # Examples
 
-## Example 1 --- Monitor store metrics
+## Example 1 — Monitor store metrics
 
-``` powershell
+```powershell
 Watch-DkvStoreMetrics -StoreName OrdersStore
 ```
 
 The console updates continuously with live metrics.
 
-------------------------------------------------------------------------
+---
 
-## Example 2 --- Monitor metrics with slower refresh
+## Example 2 — Monitor metrics with slower refresh
 
-``` powershell
+```powershell
 Watch-DkvStoreMetrics -StoreName OrdersStore -RefreshSec 3
 ```
 
 Updates every 3 seconds.
 
-------------------------------------------------------------------------
+---
 
-## Example 3 --- Monitor metrics from specific manager nodes
+## Example 3 — Monitor metrics from specific manager services
 
-``` powershell
+```powershell
 Watch-DkvStoreMetrics `
     -StoreName OrdersStore `
-    -Servers 10.0.0.11,10.0.0.12
+    -Managers 10.0.0.11,10.0.0.12
 ```
 
-------------------------------------------------------------------------
+---
 
-## Example 4 --- Monitor metrics using a connected manager session
+## Example 4 — Monitor metrics using a connected manager session
 
-``` powershell
-Connect-DkvManager -Servers 10.0.0.11,10.0.0.12
+```powershell
+Connect-DkvManager -Managers 10.0.0.11,10.0.0.12
 
 Watch-DkvStoreMetrics -StoreName OrdersStore
 ```
 
-------------------------------------------------------------------------
+---
 
 # Example Output
 
-    Store: OrdersStore    Updated: 15:32:11
+Store: OrdersStore    Updated: 15:32:11
 
-    Category            Metric                      10.0.0.11/nodeA        10.0.0.12/nodeB
-    ---------------------------------------------------------------------------------------
-    Requests            Get                         2,100/s (154,002)      1,980/s (149,210)
-    Requests            Put                         980/s (74,221)         1,020/s (76,002)
-    Requests            Remove                      210/s (12,341)         198/s (11,900)
-    Cache               ItemsCount                  - (2,340,122)          - (2,345,001)
+Category            Metric                      10.0.0.11/nodeA        10.0.0.12/nodeB
+---------------------------------------------------------------------------------------
+DKV		            Get                         2,100/s (154,002)      1,980/s (149,210)
+DKV		            Put                         980/s (74,221)         1,020/s (76,002)
+DKV		            Remove                      210/s (12,341)         198/s (11,900)
+DKV		            Count	                  - (2,340,122)          - (2,345,001)
 
-------------------------------------------------------------------------
+---
 
 # Metric Display Format
 
@@ -195,23 +191,22 @@ Example:
 
     2,341/s (134,223)
 
-  Value      Meaning
-  ---------- -------------------------------
-  Rate/sec   Average operations per second
-  Total      Total cumulative value
+Value      Meaning
+---------- --------------------------------
+Rate/sec   Average operations per second
+Total      Total cumulative value
 
 If a rate cannot be calculated, the display shows:
 
     - (Total)
 
-------------------------------------------------------------------------
+---
 
 # Behavior
 
 ### Continuous Display
 
-The console is cleared once and the cursor position is reset on each
-refresh cycle so the table updates **in place**.
+The console is cleared and redrawn on each refresh cycle so the table updates **in place**.
 
 ### Cancellation
 
@@ -225,41 +220,40 @@ Only metrics belonging to the specified **StoreName** are displayed.
 
 Nodes appear in the format:
 
-    serverHost/shortNodeId
+    managerHost/shortNodeId
 
 Example:
 
     10.0.0.11/5f7c1a92
 
-------------------------------------------------------------------------
+---
 
 # Notes
 
 ### Manager Connection Requirement
 
-If neither `-Servers` nor an active `Connect-DkvManager` session exists,
-the cmdlet terminates with an error:
+If neither `-Managers` nor an active `Connect-DkvManager` session exists, the cmdlet terminates with an error:
 
-    No managers connected. Use Connect-DkvManager or specify -Servers.
+    No managers connected. Use Connect-DkvManager or specify -Managers.
 
-------------------------------------------------------------------------
+---
 
 ### Recommended Usage
 
 This cmdlet is typically used during:
 
--   Performance testing
--   Capacity planning
--   Production diagnostics
--   Cluster troubleshooting
+- Performance testing
+- Capacity planning
+- Production diagnostics
+- Cluster troubleshooting
 
-------------------------------------------------------------------------
+---
 
 # Related Cmdlets
 
--   Connect-DkvManager
--   Get-DkvStore
--   New-DkvStore
--   Add-DkvInstance
--   Start-DkvStore
--   Stop-DkvStore
+- Connect-DkvManager
+- Get-DkvStore
+- New-DkvStore
+- Add-DkvInstance
+- Start-DkvStore
+- Stop-DkvStore

@@ -7,127 +7,132 @@ sidebar_position: 6
 
 ## Synopsis
 
-Stops one or more instances of a **Clustron Distributed Key-Value (DKV)
-store**.
+Stops one or more nodes of a **Clustron Distributed Key-Value (DKV) store**.
 
-## Description
+---
 
-`Stop-DkvStore` stops running instances of a Clustron store on one or
-more manager servers.
+# Description
+
+`Stop-DkvStore` stops running nodes of a Clustron store by issuing stop commands through the connected **manager services**.
 
 The cmdlet performs the following steps:
 
-1.  Resolves the target manager servers.
-2.  Queries the manager to discover the store configuration.
-3.  Determines which instances should be stopped.
-4.  Sends stop commands to each instance.
+1. Resolves the target managers.
+2. Queries a manager to discover the store configuration.
+3. Determines which nodes should be stopped.
+4. Sends stop commands to each node.
 
 The cmdlet can stop:
 
--   **All instances of a store**
--   **A specific instance**
+- **All nodes of a store**
+- **A specific node**
 
 Execution can be performed:
 
--   Sequentially (default)
--   In parallel using `-Parallel`
+- Sequentially (default)
+- In parallel using `-Parallel`
 
-If an operation fails, execution can optionally stop immediately using
-`-FailFast`.
+If an operation fails, execution can optionally stop immediately using `-FailFast`.
 
-The cmdlet outputs one **DkvAdminResult** per instance stop operation.
+The cmdlet writes one **Result** per node stop operation.
 
-------------------------------------------------------------------------
+---
 
 # Syntax
 
-### Stop all instances
+### Stop all nodes
 
-``` powershell
+```powershell
 Stop-DkvStore -Name <string>
 ```
 
-### Stop a specific instance
+### Stop a specific node
 
-``` powershell
+```powershell
 Stop-DkvStore -Name <string> -InstanceName <string>
 ```
 
 Optional execution parameters inherited from `DkvCmdletBase`:
 
-``` powershell
-[-Servers <string[]>] [-Port <int>] [-TimeoutSec <int>] [-Parallel] [-FailFast]
+```powershell
+[-Managers <string[]>] [-Port <int>] [-TimeoutSec <int>] [-Parallel] [-FailFast]
 ```
 
-------------------------------------------------------------------------
+---
 
 # Parameters
 
 ## -Name
 
-Name of the store whose instances should be stopped.
+Name of the store whose nodes should be stopped.
 
 Example:
 
-    OrdersStore
+```
+OrdersStore
+```
 
 Required: **Yes**
 
-------------------------------------------------------------------------
+---
 
 ## -InstanceName
 
-Name of a specific instance to stop.
+Name of a specific node to stop.
 
-If omitted, **all instances of the store will be stopped**.
+If omitted, **all nodes of the store will be stopped**.
 
 Example:
 
-    orders-node-1
+```
+orders-1
+```
 
 Required: **No**
 
-------------------------------------------------------------------------
+---
 
 ## -Force
 
-Forces the instance to stop immediately.
+Forces the node to stop immediately.
 
 When specified, the manager API will be called with:
 
-    ?force=true
+```
+?force=true
+```
 
-This bypasses graceful shutdown checks and immediately terminates the
-instance.
+This bypasses graceful shutdown checks and immediately terminates the node.
 
 Required: **No**
 
-------------------------------------------------------------------------
+---
 
-## -Servers
+## -Managers
 
-Target Clustron manager servers.
+Target Clustron manager services.
 
 Example:
 
-``` powershell
--Servers 10.0.0.11,10.0.0.12
+```powershell
+-Managers 10.0.0.11,10.0.0.12
 ```
 
-If not specified, the cmdlet uses the active `Connect-DkvManager`
-session.
+If not specified, the cmdlet uses the active `Connect-DkvManager` session.
 
-------------------------------------------------------------------------
+---
 
 ## -Port
 
-Management API port used for the manager servers.
+Management API port used for the manager services.
 
 Default:
 
-    7800
+```
+7801
+```
 
-------------------------------------------------------------------------
+---
 
 ## -TimeoutSec
 
@@ -135,172 +140,173 @@ Maximum allowed time for the administrative operation.
 
 Default:
 
-    30 seconds
+```
+30 seconds
+```
 
-------------------------------------------------------------------------
+---
 
 ## -Parallel
 
-Executes the operation against multiple servers **concurrently**.
+Executes the operation against multiple managers **concurrently**.
 
-Useful for clusters with many manager nodes.
+Useful for clusters with many manager services.
 
-------------------------------------------------------------------------
+---
 
 ## -FailFast
 
 Stops execution immediately when a failure occurs.
 
-Without this flag the cmdlet continues processing remaining servers.
+Without this flag the cmdlet continues processing remaining managers.
 
-------------------------------------------------------------------------
+---
 
 # Examples
 
-## Example 1 --- Stop all instances of a store
+## Example 1 — Stop all nodes of a store
 
-``` powershell
+```powershell
 Stop-DkvStore -Name OrdersStore
 ```
 
-------------------------------------------------------------------------
+---
 
-## Example 2 --- Stop a specific instance
+## Example 2 — Stop a specific node
 
-``` powershell
-Stop-DkvStore -Name OrdersStore -InstanceName orders-node-1
+```powershell
+Stop-DkvStore -Name OrdersStore -InstanceName orders-1
 ```
 
-------------------------------------------------------------------------
+---
 
-## Example 3 --- Force stop an instance
+## Example 3 — Force stop a node
 
-``` powershell
-Stop-DkvStore -Name OrdersStore -InstanceName orders-node-1 -Force
+```powershell
+Stop-DkvStore -Name OrdersStore -InstanceName orders-1 -Force
 ```
 
-This immediately terminates the instance.
+This immediately terminates the node.
 
-------------------------------------------------------------------------
+---
 
-## Example 4 --- Stop instances using a connected manager session
+## Example 4 — Stop nodes using a connected manager session
 
-``` powershell
-Connect-DkvManager -Servers 10.0.0.11,10.0.0.12
+```powershell
+Connect-DkvManager -Managers 10.0.0.11,10.0.0.12
 
 Stop-DkvStore -Name OrdersStore
 ```
 
-------------------------------------------------------------------------
+---
 
-## Example 5 --- Stop store instances on specific manager servers
+## Example 5 — Stop nodes on specific managers
 
-``` powershell
+```powershell
 Stop-DkvStore `
     -Name OrdersStore `
-    -Servers 10.0.0.11,10.0.0.12
+    -Managers 10.0.0.11,10.0.0.12
 ```
 
-------------------------------------------------------------------------
+---
 
-## Example 6 --- Stop instances across servers in parallel
+## Example 6 — Stop nodes across managers in parallel
 
-``` powershell
+```powershell
 Stop-DkvStore `
     -Name OrdersStore `
-    -Servers 10.0.0.11,10.0.0.12,10.0.0.13 `
+    -Managers 10.0.0.11,10.0.0.12,10.0.0.13 `
     -Parallel
 ```
 
-------------------------------------------------------------------------
+---
 
-## Example 7 --- Stop execution on first failure
+## Example 7 — Stop execution on first failure
 
-``` powershell
+```powershell
 Stop-DkvStore `
     -Name OrdersStore `
     -FailFast
 ```
 
-------------------------------------------------------------------------
+---
 
 # Output
 
-The cmdlet returns one **DkvAdminResult** object per instance stop
-operation.
+The command writes results to the console in table format.
 
-Typical properties include:
+Example:
 
-  Property     Description
-  ------------ -----------------------
-  Server       Target manager server
-  Operation    Operation name
-  Success      Indicates success
-  StatusCode   HTTP status code
-  Message      Result message
+```
+Manager               Action                      Result   Message
+------------------------------------------------------------------
+10.0.0.11:7801        StopInstance:orders-1       SUCCESS  Stopped
+10.0.0.12:7801        StopInstance:orders-2       SUCCESS  Stopped
+```
 
-Example output:
+Each row represents the result returned by a manager.
 
-    Server      : http://10.0.0.11:7800
-    Operation   : StopInstance:orders-node-1
-    Success     : True
-    StatusCode  : 200
-    Message     : Instance stopped successfully
-
-------------------------------------------------------------------------
+---
 
 # Notes
 
-### Manager Context Requirement
+## Manager Context Requirement
 
-If neither `-Servers` nor an active `Connect-DkvManager` session is
-present, the cmdlet will terminate with an error.
+If neither `-Managers` nor an active `Connect-DkvManager` session is present, the cmdlet terminates with an error.
 
 Example error:
 
-    No managers connected. Use Connect-DkvManager or specify -Servers.
+```
+No managers connected. Use Connect-DkvManager or specify -Managers.
+```
 
-------------------------------------------------------------------------
+---
 
-### Instance Discovery
+## Node Discovery
 
 The cmdlet first queries the manager API:
 
-    GET /admin/v1/stores/&#123;StoreName&#125;
+```
+GET /admin/v1/stores/{StoreName}
+```
 
-This returns the list of instances associated with the store.
+This returns the list of nodes associated with the store.
 
-------------------------------------------------------------------------
+---
 
-### Instance Stop API
+## Node Stop API
 
-Each instance is stopped using the manager API:
+Each node is stopped using the manager API:
 
-    POST /admin/v1/stores/&#123;StoreName&#125;/instances/&#123;InstanceName&#125;/stop
+```
+POST /admin/v1/stores/{StoreName}/instances/{InstanceName}/stop
+```
 
 If `-Force` is specified:
 
-    POST /admin/v1/stores/&#123;StoreName&#125;/instances/&#123;InstanceName&#125;/stop?force=true
+```
+POST /admin/v1/stores/{StoreName}/instances/{InstanceName}/stop?force=true
+```
 
-------------------------------------------------------------------------
+---
 
-### Example Production Cluster
+## Example Production Cluster
 
-  Node        Instance        ClustronPort   ClientPort
-  ----------- --------------- -------------- ------------
-  10.0.0.11   orders-node-1   7001           7101
-  10.0.0.12   orders-node-2   7002           7102
-  10.0.0.13   orders-node-3   7003           7103
+| Server      | Node      | ClustronPort | ClientPort |
+|-------------|-----------|--------------|------------|
+| 10.0.0.11   | orders-1  | 7811         | 7861       |
+| 10.0.0.12   | orders-2  | 7811         | 7861       |
+| 10.0.0.13   | orders-3  | 7811         | 7861       |
 
-Stopping the store without `-InstanceName` stops all instances.
+Stopping the store without `-InstanceName` stops all nodes.
 
-------------------------------------------------------------------------
+---
 
 # Related Cmdlets
 
--   Connect-DkvManager
--   New-DkvStore
--   Add-DkvInstance
--   Start-DkvStore
--   Get-DkvStore
--   Watch-DkvStoreMetrics
+- Connect-DkvManager
+- New-DkvStore
+- Add-DkvInstance
+- Start-DkvStore
+- Get-DkvStore
+- Watch-DkvStoreMetrics

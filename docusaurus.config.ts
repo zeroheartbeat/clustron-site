@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Clustron',
-  tagline: 'Distributed Coordination & Key Value Platform',
+  tagline: 'Distributed Cache & Key-Value Store for .NET',
   favicon: 'img/favicon.ico',
 
   future: {
@@ -66,6 +66,14 @@ const config: Config = {
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
 	
+	metadata: [
+  {
+    name: 'description',
+    content:
+      'Clustron is a distributed cache and key-value store for .NET with built-in coordination primitives like locks, leader election, transactions, and watches.',
+  },
+],
+
 	announcementBar: {
 	  id: 'clustron_launch',
 	  content:

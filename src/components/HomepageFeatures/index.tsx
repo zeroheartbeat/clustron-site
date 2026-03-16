@@ -3,6 +3,10 @@ import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
+import KV from '@site/static/img/distributed-key-value-storage.svg';
+import Coordination from '@site/static/img/distributed-coordination.svg';
+import Tooling from '@site/static/img/operational-tooling.svg';
+
 type FeatureItem = {
   title: string;
   Svg: React.ComponentType<React.ComponentProps<'svg'>>;
@@ -12,7 +16,7 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: 'Distributed Key-Value Storage',
-    Svg: require('@site/static/img/distributed-key-value-storage.svg').default,
+    Svg: KV,
     description: (
       <>
         Clustron DKV provides a high-performance distributed key-value store
@@ -22,7 +26,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Distributed Coordination',
-    Svg: require('@site/static/img/distributed-coordination.svg').default,
+    Svg: Coordination,
     description: (
       <>
         Build reliable distributed systems using built-in coordination primitives
@@ -32,7 +36,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Powerful Operational Tooling',
-    Svg: require('@site/static/img/operational-tooling.svg').default,
+    Svg: Tooling,
     description: (
       <>
         Manage clusters and automate operations using the Clustron PowerShell CLI
@@ -48,6 +52,7 @@ function Feature({title, Svg, description}: FeatureItem) {
       <div className="text--center">
         <Svg className={styles.featureSvg} role="img" />
       </div>
+
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>
         <p>{description}</p>

@@ -1,171 +1,253 @@
 # Getting Started with Clustron DKV (Windows)
 
-Follow the steps below to install and run Clustron DKV on a Windows machine.
+This guide helps you install and run **Clustron DKV** on Windows.
 
----
+You can follow this guide whether you have:
 
-## 1. Download the Release
+-   **A single machine** (run multiple instances on one server)
+-   **Multiple machines** (run one instance per server)
 
-1. Download `clustron-dkv-x.x.x-win-x64.zip` from the [Releases](https://github.com/zeroheartbeat/clustron-dkv/releases) page.
-2. Extract the ZIP file to a folder of your choice.
+Both scenarios are explained below.
 
----
+------------------------------------------------------------------------
 
-## 2. Install PowerShell 7
+# 1. Download Clustron DKV
+
+Download the latest release from:
+
+    https://clustron.io/download/
+
+Download the Windows package:
+
+    clustron-dkv-x.x.x-win-x64.zip
+
+Extract the ZIP file to a folder of your choice.
+
+Example:
+
+    C:\temp\clustron
+
+------------------------------------------------------------------------
+
+# 2. Install or Upgrade PowerShell
 
 Clustron DKV requires **PowerShell 7.5.4 or later**.
 
-If you don’t already have it installed, download it from:
+Install or upgrade PowerShell using:
 
-https://learn.microsoft.com/powershell/
+``` powershell
+winget install --id Microsoft.PowerShell -e
+```
 
----
+After installation, open **PowerShell 7**.
 
-## 3. Run PowerShell as Administrator
+------------------------------------------------------------------------
+
+# 3. Run PowerShell as Administrator
 
 Open **PowerShell 7** with administrative privileges.
 
----
+This is required for installation.
 
-## 4. Install Clustron DKV
+------------------------------------------------------------------------
+
+# 4. Install Clustron DKV
 
 Navigate to the extracted folder:
 
-```
-/clustron/
+``` powershell
+cd C:\temp\clustron
 ```
 
-Run the installation script:
+Run the installer:
 
-```powershell
-./install.ps1
+``` powershell
+install.cmd
 ```
 
 This installs Clustron DKV to:
 
+    C:\Program Files\Clustron
+
+The installer automatically opens the recommended firewall port range:
+
+    7801 – 7899
+
+------------------------------------------------------------------------
+
+# 5. Recommended Port Ranges
+
+Clustron recommends the following port ranges.
+
+| Purpose | Port Range |
+|--------|------------|
+| Management Service | 7801 – 7810 |
+| Cluster Communication | 7811 – 7860 |
+| Client Connections | 7861 – 7899 |
+
+You may use different ports if required, but ensure they are **open in the firewall on all machines**.
+
+------------------------------------------------------------------------
+
+# 6. Connect to the Management Service
+
+Example:
+
+``` powershell
+Connect-DkvManager -Managers localhost:7801
 ```
-C:\Program Files\Clustron
+
+or
+
+``` powershell
+Connect-DkvManager -Managers 10.0.0.4:7801
 ```
 
----
+------------------------------------------------------------------------
 
-## Example Setup
+## Scenario 1 --- Single Machine Cluster
 
-Assume your machine’s IP address is:
+Create a store:
 
-```
-10.0.0.4
-```
-
-All example commands below use this IP.  
-Replace it with your actual IP address if different.
-
----
-
-## 5. Connect to the Management Service
-
-```powershell
-Connect-DkvManager 10.0.0.4:7801
-```
-
-If running locally, you may also use:
-
-```powershell
-Connect-DkvManager localhost:7801
-```
-
----
-
-## 6. Create a New Store
-
-The following command creates a store named **TestStore** with two nodes running on the same machine (for demo purposes).
-
-```powershell
+``` powershell
 New-DkvStore `
   -Name TestStore `
-  -Instances @(
-      @{ InstanceName="node1"; ClustronPort=7805; ClientPort=7070 },
-      @{ InstanceName="node2"; ClustronPort=7806; ClientPort=7071 }
-  ) `
-  -Server 10.0.0.4
+  -InstancePrefix node `
+  -InstanceCount 2 `
+  -ClustronPort 7811 `
+  -ClientPort 7861
 ```
 
-This creates:
+Start the store:
 
-- node1 → ClustronPort 7805, ClientPort 7070  
-- node2 → ClustronPort 7806, ClientPort 7071  
-
----
-
-## 7. Start the Store
-
-```powershell
+``` powershell
 Start-DkvStore TestStore
 ```
 
-This starts all instances of the store.
+Monitor metrics:
 
----
-
-## 8. Monitor Store Statistics
-
-Open live per-second metrics for all instances:
-
-```powershell
+``` powershell
 Watch-DkvStoreMetrics -StoreName TestStore
 ```
 
-You’ll see live counters for operations per second.
+Connect a client:
 
----
-
-## 9. Open a Second PowerShell Terminal
-
-Keep the first terminal running metrics.
-
-Open a new PowerShell 7 window.
-
----
-
-## 10. Connect to the Store
-
-Connect to any one node. The client will automatically discover the rest of the cluster.
-
-```powershell
+``` powershell
 Connect-DkvStore `
   -StoreName TestStore `
-  -Endpoints 10.0.0.4:7070
+  -Endpoints localhost:7861
 ```
 
-(You can use any valid client port.)
+Generate load:
 
----
-
-## 11. Generate Load (Stress Test)
-
-Simulate concurrent load and watch metrics update in real time:
-
-```powershell
+``` powershell
 Stress-DkvStore `
   -StoreName TestStore `
   -Concurrency 32 `
-  -DurationSec 500
+  -DurationSec 120
 ```
 
-This runs a stress test with:
+------------------------------------------------------------------------
 
-- 32 concurrent operations  
-- 500 seconds duration  
+## Scenario 2 --- Multi Server Cluster
 
----
+Connect to managers:
 
-## You’re Done!
+``` powershell
+Connect-DkvManager -Managers 10.0.0.11:7801,10.0.0.12:7801,10.0.0.13:7801
+```
 
-You now have:
+Create the store:
 
-- Installed Clustron DKV  
-- Created a multi-node store  
-- Started the cluster  
-- Connected a client  
-- Generated load  
-- Monitored real-time metrics  
+``` powershell
+New-DkvStore `
+  -Name TestStore `
+  -InstancePrefix node `
+  -InstanceCount 1 `
+  -ClustronPort 7811 `
+  -ClientPort 7861
+```
+
+Start cluster:
+
+``` powershell
+Start-DkvStore TestStore
+```
+
+Connect client:
+
+``` powershell
+Connect-DkvStore `
+  -StoreName TestStore `
+  -Endpoints 10.0.0.11:7861
+```
+
+------------------------------------------------------------------------
+
+# 7. Monitor Cluster
+
+``` powershell
+Watch-DkvStoreMetrics -StoreName TestStore
+```
+
+------------------------------------------------------------------------
+
+# 8. Using Clustron from .NET
+
+Install client:
+
+``` bash
+dotnet add package Clustron.DKV.Client
+```
+
+QuickStart_InProc.cs
+
+``` csharp
+using Clustron.DKV.Client;
+
+var client = await DKVClient.InitializeInProc("demo");
+
+await client.PutAsync("hello", "world");
+
+var value = await client.GetAsync<string>("hello");
+
+Console.WriteLine(value);
+```
+
+QuickStart_Remote.cs
+
+``` csharp
+using Clustron.DKV.Client;
+
+var client = await DKVClient.InitializeRemote(
+    "TestStore",
+    new[]
+    {
+        new DkvServerInfo("localhost", 7861)
+    });
+
+await client.PutAsync("hello", "world");
+
+var value = await client.GetAsync<string>("hello");
+
+Console.WriteLine(value);
+```
+
+------------------------------------------------------------------------
+
+# 9. Samples
+
+Clustron includes several **ready-to-run sample applications** that demonstrate
+how to use the platform in real-world scenarios.
+
+These samples show how to:
+
+- Perform basic **key-value operations**
+- Connect to a **distributed cluster**
+- Use **transactions**
+- Use **Locks & Leases**
+- Integrate Clustron into **production-style .NET applications**
+
+Browse the samples repository:
+
+https://github.com/zeroheartbeat/clustron-dkv/tree/main/Samples

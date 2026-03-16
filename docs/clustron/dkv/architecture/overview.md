@@ -20,7 +20,7 @@ Clustron DKV is evolving into a distributed data foundation rather than a simple
 
 ![Clustron Architecture](/img/clustron-architecture.png)
 
-```
+---
 
 Each node operates as an independent process and participates in cluster coordination.
 

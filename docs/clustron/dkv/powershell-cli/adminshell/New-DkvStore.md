@@ -7,56 +7,53 @@ sidebar_position: 4
 
 ## Synopsis
 
-Creates a new **Clustron Distributed Key‑Value (DKV) store** on one or
-more management servers.
+Creates a new **Clustron Distributed Key‑Value (DKV) store** across the cluster using the currently connected managers.
 
-## Description
+---
 
-`New-DkvStore` provisions a new distributed store in the Clustron
-cluster.\
-A store represents a logical key‑value database backed by one or more
-**instances** running on cluster nodes.
+# Description
 
-The cmdlet supports two provisioning modes:
+`New-DkvStore` provisions a distributed store in the Clustron cluster.
 
-1.  **Single Instance Mode** -- Create a store with a single instance.
-2.  **Multi Instance Mode** -- Create a store with multiple instances in
-    a single operation.
+A store represents a logical distributed key‑value database composed of one or more **nodes** running on cluster **servers**.
 
-The command targets one or more manager servers resolved through:
+The command automatically generates the **node topology** using:
 
--   `-Servers` parameter
--   The active `Connect-DkvManager` session context
--   Fallback to `localhost` if no context exists
+- Connected managers
+- Instance prefix
+- Instance count per server
+- Starting cluster and client ports
 
-When multiple servers are targeted, the cmdlet can execute:
+Topology generation happens inside the CLI. The generated topology is then sent to every manager so that all cluster servers receive the same configuration.
 
--   **Sequentially (default)**
--   **In parallel** using `-Parallel`
+Managers are determined from the active session created with:
 
-------------------------------------------------------------------------
+```powershell
+Connect-DkvManager
+```
+
+All administrative operations are executed against **every connected manager**.
+
+---
 
 # Syntax
 
-### Single Instance
-
-``` powershell
-New-DkvStore -Name <string> -InstanceName <string> -ClustronPort <int> -ClientPort <int>
-```
-
-### Multi Instance
-
-``` powershell
-New-DkvStore -Name <string> -Instances <InstanceDefinition[]>
+```powershell
+New-DkvStore `
+    -Name <string> `
+    -InstancePrefix <string> `
+    [-InstanceCount <int>] `
+    [-ClustronPort <int>] `
+    [-ClientPort <int>]
 ```
 
 Optional execution parameters inherited from `DkvCmdletBase`:
 
-``` powershell
-[-Servers <string[]>] [-Port <int>] [-TimeoutSec <int>] [-Parallel] [-FailFast]
+```powershell
+[-Parallel] [-FailFast] [-TimeoutSec <int>]
 ```
 
-------------------------------------------------------------------------
+---
 
 # Parameters
 
@@ -66,280 +63,278 @@ Name of the distributed store.
 
 Example:
 
-    OrdersStore
+```
+OrdersStore
+```
 
 Required: **Yes**
 
-------------------------------------------------------------------------
+---
 
-## -InstanceName
+## -InstancePrefix
 
-Name of the instance when creating a **single‑instance store**.
+Prefix used when generating node names.
+
+Nodes are named using the pattern:
+
+```
+<prefix>-<index>
+```
 
 Example:
 
-    orders-node-1
+```
+orders-1
+orders-2
+orders-3
+```
 
-Required: **Yes** (SingleInstance parameter set)
+Required: **Yes**
 
-------------------------------------------------------------------------
+---
+
+## -InstanceCount
+
+Number of nodes created **per server**.
+
+Default value:
+
+```
+1
+```
+
+Example:
+
+```powershell
+-InstanceCount 2
+```
+
+Required: **No**
+
+---
 
 ## -ClustronPort
 
-Internal **cluster communication port** used by the instance.
+Starting port used for **cluster communication** between nodes.
+
+Default value:
+
+```
+7811
+```
+
+When multiple nodes are created on the same server, the port increments for each node.
 
 Example:
 
-    7001
+```
+7811
+7812
+7813
+```
 
-Required: **Yes** (SingleInstance parameter set)
+Required: **No**
 
-------------------------------------------------------------------------
+---
 
 ## -ClientPort
 
-Port exposed for **client applications** to connect to the store.
+Starting port exposed for **client applications** to connect to the store.
 
-Example:
+Default value:
 
-    7101
-
-Required: **Yes** (SingleInstance parameter set)
-
-------------------------------------------------------------------------
-
-## -Instances
-
-Defines multiple store instances when creating a **multi‑instance
-store**.
-
-Each instance contains:
-
-  Property       Description
-  -------------- ----------------------------
-  InstanceName   Instance identifier
-  ClustronPort   Cluster communication port
-  ClientPort     Client access port
-
-Required: **Yes** (MultiInstance parameter set)
-
-------------------------------------------------------------------------
-
-## -Servers
-
-Target Clustron manager servers.
-
-Example:
-
-``` powershell
--Servers 10.0.0.11,10.0.0.12
+```
+7861
 ```
 
-If not specified, the cmdlet uses the active `Connect-DkvManager`
-session.
+When multiple nodes are created on the same server, the port increments for each node.
 
-------------------------------------------------------------------------
+Example:
 
-## -Port
+```
+7861
+7862
+7863
+```
 
-Management API port used for the manager servers.
+Required: **No**
 
-Default:
+---
 
-    7800
+# Topology Generation
 
-------------------------------------------------------------------------
+Node topology is generated automatically using the following logic:
 
-## -TimeoutSec
+```
+nodes = connected servers × InstanceCount
+```
 
-Maximum time allowed for the administrative request.
+Each server hosts the specified number of nodes. The CLI generates node names sequentially across the entire cluster.
 
-Default:
+For each server:
 
-    30 seconds
+- Node names are generated sequentially using the specified prefix.
+- Cluster and client ports start from the specified base port.
+- Each additional node on the same server increments both ports.
 
-------------------------------------------------------------------------
+Example configuration:
 
-## -Parallel
+```
+Servers: 10.0.0.11, 10.0.0.12
+InstancePrefix: orders
+InstanceCount: 2
+ClustronPort: 7811
+ClientPort: 7861
+```
 
-Executes the operation against multiple servers **concurrently**.
+Generated topology:
 
-Useful for large clusters.
+```
+orders-1   10.0.0.11:7811   client:7861
+orders-2   10.0.0.11:7812   client:7862
+orders-3   10.0.0.12:7811   client:7861
+orders-4   10.0.0.12:7812   client:7862
+```
 
-------------------------------------------------------------------------
+This topology is sent to every connected manager.
 
-## -FailFast
-
-Stops execution immediately if a failure occurs on any server.
-
-------------------------------------------------------------------------
+---
 
 # Examples
 
-## Example 1 --- Create a single‑instance store
+## Example 1 — Create a store with one node per server
 
-``` powershell
-New-DkvStore `
-    -Name OrdersStore `
-    -InstanceName orders-node-1 `
-    -ClustronPort 7001 `
-    -ClientPort 7101
-```
-
-------------------------------------------------------------------------
-
-## Example 2 --- Create a store on specific manager servers
-
-``` powershell
-New-DkvStore `
-    -Name OrdersStore `
-    -InstanceName orders-node-1 `
-    -ClustronPort 7001 `
-    -ClientPort 7101 `
-    -Servers 10.0.0.11,10.0.0.12
-```
-
-------------------------------------------------------------------------
-
-## Example 3 --- Create store using a connected manager session
-
-``` powershell
-Connect-DkvManager -Servers 10.0.0.11,10.0.0.12
+```powershell
+Connect-DkvManager -Managers 10.0.0.11,10.0.0.12
 
 New-DkvStore `
     -Name OrdersStore `
-    -InstanceName orders-node-1 `
-    -ClustronPort 7001 `
-    -ClientPort 7101
+    -InstancePrefix orders
 ```
 
-------------------------------------------------------------------------
+Generated topology:
 
-## Example 4 --- Create a multi‑instance store
-
-``` powershell
-$instances = @(
-    [InstanceDefinition]@{
-        InstanceName = "orders-node-1"
-        ClustronPort = 7001
-        ClientPort   = 7101
-    },
-    [InstanceDefinition]@{
-        InstanceName = "orders-node-2"
-        ClustronPort = 7002
-        ClientPort   = 7102
-    },
-    [InstanceDefinition]@{
-        InstanceName = "orders-node-3"
-        ClustronPort = 7003
-        ClientPort   = 7103
-    }
-)
-
-New-DkvStore -Name OrdersStore -Instances $instances
+```
+orders-1 10.0.0.11:7811 client:7861
+orders-2 10.0.0.12:7811 client:7861
 ```
 
-------------------------------------------------------------------------
+---
 
-## Example 5 --- Execute store creation in parallel across servers
+## Example 2 — Create two nodes per server
 
-``` powershell
+```powershell
 New-DkvStore `
     -Name OrdersStore `
-    -InstanceName orders-node-1 `
-    -ClustronPort 7001 `
-    -ClientPort 7101 `
-    -Servers 10.0.0.11,10.0.0.12,10.0.0.13 `
+    -InstancePrefix orders `
+    -InstanceCount 2
+```
+
+Generated nodes:
+
+```
+orders-1 10.0.0.11:7811 client:7861
+orders-2 10.0.0.11:7812 client:7862
+orders-3 10.0.0.12:7811 client:7861
+orders-4 10.0.0.12:7812 client:7862
+```
+
+---
+
+## Example 3 — Execute store creation in parallel across managers
+
+```powershell
+New-DkvStore `
+    -Name OrdersStore `
+    -InstancePrefix orders `
+    -InstanceCount 2 `
     -Parallel
 ```
 
-------------------------------------------------------------------------
+Administrative requests are sent to all managers concurrently.
 
-## Example 6 --- Stop execution on first failure
+---
 
-``` powershell
+## Example 4 — Stop execution on first failure
+
+```powershell
 New-DkvStore `
     -Name OrdersStore `
-    -InstanceName orders-node-1 `
-    -ClustronPort 7001 `
-    -ClientPort 7101 `
+    -InstancePrefix orders `
+    -InstanceCount 2 `
     -FailFast
 ```
 
-------------------------------------------------------------------------
+Execution stops if any manager reports an error.
+
+---
 
 # Output
 
-The cmdlet returns a **DkvAdminResult** object describing the result of
-the administrative operation.
+The command writes results to the console in table format.
 
-Typical properties include:
+Example:
 
-  Property     Description
-  ------------ --------------------------
-  Server       Target manager server
-  Operation    Operation name
-  Success      Indicates success
-  StatusCode   HTTP status code
-  Message      Operation result message
+```
+Manager               Action        Result   Message
+----------------------------------------------------
+10.0.0.11:7801        CreateStore   SUCCESS  Created
+10.0.0.12:7801        CreateStore   SUCCESS  Created
+```
 
-Example output:
+Each row represents the result returned by a manager.
 
-    Server      : http://10.0.0.11:7800
-    Operation   : CreateStore
-    Success     : True
-    StatusCode  : 200
-    Message     : Store created successfully
-
-------------------------------------------------------------------------
+---
 
 # Notes
 
-### Instance Host Resolution
+## Manager Context
 
-When instances are created, the instance host is automatically set to
-the **target server host**.
+`New-DkvStore` relies on the manager context created by:
+
+```powershell
+Connect-DkvManager
+```
+
+If no manager context exists, the command will warn that no managers are connected.
+
+---
+
+## Port Allocation
+
+Ports start from the configured base values and increment for each additional node created on the same server.
 
 Example:
 
-    Server: 10.0.0.11
-    Instance Host: 10.0.0.11
+```
+ClustronPort = 7811
+ClientPort   = 7861
+InstanceCount = 3
+```
 
-------------------------------------------------------------------------
+Generated ports:
 
-### Metrics Push Target
+```
+7811 / 7861
+7812 / 7862
+7813 / 7863
+```
 
-Each store instance automatically configures a **metrics push target**
-using the manager server URL.
+---
 
-Example:
+## Cluster Consistency
 
-    PushTargetUrl = http://10.0.0.11:7800
+All managers must be reachable when performing administrative operations.
 
-This allows runtime metrics to be streamed to the management layer.
+If a manager is unavailable, the operation may fail because configuration changes cannot be applied across the entire cluster.
 
-------------------------------------------------------------------------
-
-### Recommended Production Layout
-
-For production environments, a store typically runs with **multiple
-instances** across cluster nodes.
-
-Example cluster:
-
-  Node        Instance        ClustronPort   ClientPort
-  ----------- --------------- -------------- ------------
-  10.0.0.11   orders-node-1   7001           7101
-  10.0.0.12   orders-node-2   7002           7102
-  10.0.0.13   orders-node-3   7003           7103
-
-------------------------------------------------------------------------
+---
 
 # Related Cmdlets
 
--   Connect-DkvManager
--   Add-DkvInstance
--   Start-DkvStore
--   Stop-DkvStore
--   Get-DkvStore
--   Watch-DkvStoreMetrics
+- Connect-DkvManager
+- Add-DkvInstance
+- Start-DkvStore
+- Stop-DkvStore
+- Get-DkvStore
+- Watch-DkvStoreMetrics
