@@ -5,29 +5,60 @@ import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import CodeBlock from '@theme/CodeBlock';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
-
 import styles from './index.module.css';
+
+/* -----------------------------
+Analytics helper
+------------------------------*/
+
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
+
+function trackEvent(name: string, params: any = {}) {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", name, params);
+  }
+}
+
+/* ----------------------------- */
 
 const installCode = `dotnet add package Clustron.DKV.Client`;
 
-const inProcCode = `using Clustron.DKV.Client;
+const inProcCode = `var services = new ServiceCollection()
+    .AddClustronDkvStores(cfg =>
+    {
+        cfg.AddStore("demo", s => s.UseInProc());
+    })
+    .BuildServiceProvider();
 
-var client = await DKVClient.InitializeInProc("demo");
+var client = await services
+    .GetRequiredService<IDkvClientProvider>()
+    .GetAsync("demo");
 
 await client.PutAsync("hello", "world");
 
-var value = await client.GetAsync<string>("hello");
+var value = await client.GetAsync<string>("hello");`;
 
-Console.WriteLine(value);`;
+const remoteCode = `using Clustron.DKV.Client.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
-const remoteCode = `using Clustron.DKV.Client;
+var services = new ServiceCollection()
+    .AddClustronDkvStores(cfg =>
+    {
+        cfg.AddStore("teststore", s =>
+        {
+            s.UseRemote()
+             .AddServer("localhost", 7861);
+        });
+    })
+    .BuildServiceProvider();
 
-var client = await DKVClient.InitializeRemote(
-  "teststore",
-  new[]
-  {
-      new DkvServerInfo("localhost", 7861)
-  });
+var client = await services
+    .GetRequiredService<IDkvClientProvider>()
+    .GetAsync("teststore");
 
 await client.PutAsync("hello", "world");
 
@@ -42,7 +73,6 @@ function HomepageHeader() {
 
         <div className="row">
 
-          {/* LEFT SIDE */}
           <div className="col col--6">
 
             <Heading as="h1" className={styles.heroTitle}>
@@ -50,26 +80,32 @@ function HomepageHeader() {
             </Heading>
 
             <p className={styles.heroSubtitle}>
-              Distributed Cache & Key-Value Store for .NET
+              Distributed Cache and Coordination Platform for .NET
             </p>
 
             <p className={styles.heroDescription}>
               Build reliable distributed systems using a high-performance
-key-value store with built-in coordination primitives like
-locks, leader election, transactions, and watches.
+              key-value store with built-in coordination primitives like
+              locks, leader election, transactions, and watches.
             </p>
 
             <div className={styles.heroButtons}>
 
               <Link
                 className="button button--primary button--lg"
-                to="/docs/clustron/dkv/getting-started/overview">
+                to="/docs/clustron/dkv/getting-started/overview"
+                onClick={() =>
+                  trackEvent("docs_get_started", { location: "hero" })
+                }>
                 Get Started
               </Link>
 
               <Link
                 className="button button--outline button--lg"
-                href="https://github.com/zeroheartbeat/clustron-dkv">
+                href="https://github.com/zeroheartbeat/clustron-dkv"
+                onClick={() =>
+                  trackEvent("github_click", { location: "hero" })
+                }>
                 View on GitHub
               </Link>
 
@@ -77,8 +113,6 @@ locks, leader election, transactions, and watches.
 
           </div>
 
-
-          {/* RIGHT SIDE CODE */}
           <div className="col col--6">
 
             <div className={styles.codeCard}>
@@ -100,66 +134,53 @@ export default function Home(): ReactNode {
 
   return (
     <Layout
-      title="Clustron"
-      description="Distributed coordination and key-value platform for modern distributed systems">
+      title="Clustron - Distributed Cache and Coordination Platform for .NET"
+      description="Clustron is a distributed cache and key-value platform for .NET that enables applications to form clusters, coordinate nodes, perform leader election, and manage distributed state with high performance.">
 
       <HomepageHeader />
 
       {/* Capability Strip */}
+
       <section className={styles.capabilityStrip}>
-
         <div className="container">
-
           <div className={styles.capabilityItems}>
-
             <span>Distributed Key-Value</span>
             <span>Leader Election</span>
             <span>Distributed Locks</span>
             <span>Transactions</span>
             <span>Watch Notifications</span>
             <span>TTL Scheduling</span>
-
           </div>
-
         </div>
-
       </section>
 
-
       {/* Positioning */}
-      <section className={styles.positioningSection}>
 
+      <section className={styles.positioningSection}>
         <div className="container text--center">
 
           <p className={styles.positioningText}>
-
             <strong>Clustron</strong> is a distributed coordination platform
             for modern <strong>.NET applications</strong>, providing primitives
             like distributed key-value storage, leader election, distributed
             locks, transactions, and watch notifications.
-
           </p>
 
           <p className={styles.positioningSubtext}>
-
             Similar to systems like etcd and Consul — but designed specifically
             for high-performance .NET workloads.
-
           </p>
 
         </div>
-
       </section>
-
 
       <main>
 
         <HomepageFeatures />
 
-
         {/* Architecture */}
-        <section className={styles.archSection}>
 
+        <section className={styles.archSection}>
           <div className="container text--center">
 
             <h2 className={styles.sectionTitle}>
@@ -178,13 +199,11 @@ export default function Home(): ReactNode {
             />
 
           </div>
-
         </section>
 
-
         {/* Quick Start */}
-        <section className={styles.quickStartSection}>
 
+        <section className={styles.quickStartSection}>
           <div className="container">
 
             <h2 className={styles.sectionTitle}>
@@ -197,9 +216,17 @@ export default function Home(): ReactNode {
 
             <h3>1. Install the .NET Client</h3>
 
-            <CodeBlock language="bash" title="Install NuGet Package">
-              {installCode}
-            </CodeBlock>
+            <div
+              onCopy={() =>
+                trackEvent("nuget_install_copy", {
+                  command: "dotnet add package Clustron.DKV.Client",
+                })
+              }
+            >
+              <CodeBlock language="bash" title="Install NuGet Package">
+                {installCode}
+              </CodeBlock>
+            </div>
 
             <h3>2. Quick Start (Zero Setup)</h3>
 
@@ -214,13 +241,11 @@ export default function Home(): ReactNode {
             </CodeBlock>
 
           </div>
-
         </section>
 
-
         {/* CTA */}
-        <section className={styles.ctaSection}>
 
+        <section className={styles.ctaSection}>
           <div className="container text--center">
 
             <Heading as="h2">
@@ -233,12 +258,14 @@ export default function Home(): ReactNode {
 
             <Link
               className="button button--primary button--lg"
-              to="/docs/clustron/dkv/getting-started/overview">
+              to="/docs/clustron/dkv/getting-started/overview"
+              onClick={() =>
+                trackEvent("cta_get_started", { location: "bottom" })
+              }>
               Get Started
             </Link>
 
           </div>
-
         </section>
 
       </main>

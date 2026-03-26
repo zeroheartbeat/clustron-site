@@ -25,13 +25,21 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-  
-	scripts: [
-	  {
-		src: "https://www.clarity.ms/tag/vty0pg5no0",
-		async: true,
-	  },
-	],
+
+  // Microsoft Clarity
+headTags: [
+  {
+    tagName: 'script',
+    attributes: {},
+    innerHTML: `
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "vty0pg5no0");
+    `,
+  },
+],
 
   presets: [
     [
@@ -39,7 +47,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl:undefined,
+          editUrl: undefined,
         },
         blog: {
           showReadingTime: true,
@@ -47,7 +55,7 @@ const config: Config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          editUrl:undefined,
+          editUrl: undefined,
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
@@ -55,94 +63,89 @@ const config: Config = {
         theme: {
           customCss: './src/css/custom.css',
         },
-		gtag: {
-		  trackingID: 'G-FDB40P68KW',
-		  anonymizeIP: true,
-		},
+        gtag: {
+          trackingID: 'G-FDB40P68KW',
+          anonymizeIP: true,
+        },
       } satisfies Preset.Options,
     ],
   ],
 
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
-	
-	metadata: [
-  {
-    name: 'description',
-    content:
-      'Clustron is a distributed cache and key-value store for .NET with built-in coordination primitives like locks, leader election, transactions, and watches.',
-  },
-],
 
-	announcementBar: {
-	  id: 'clustron_launch',
-	  content:
-	  '🚀 Clustron DKV (<span style="color:#ef4444;font-weight:700">Beta</span>) is now available — build reliable distributed systems with .NET',
-	  backgroundColor: '#fde047',
-	  textColor: '#111827',
-	  isCloseable: false,
-	},
-	
-	colorMode: {
-	  defaultMode: 'light',
-	  disableSwitch: true,
-	  respectPrefersColorScheme: false,
-	},
+    metadata: [
+      {
+        name: 'description',
+        content:
+          'Clustron is a distributed cache and key-value store for .NET with built-in coordination primitives like locks, leader election, transactions, and watches.',
+      },
+    ],
 
-	stylesheets: [
-		{
-		  href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
-		  type: "text/css",
-		},
-	],
+    announcementBar: {
+      id: 'clustron_launch',
+      content:
+        '🚀 Clustron DKV (<span style="color:#ef4444;font-weight:700">Beta</span>) is now available — build reliable distributed systems with .NET',
+      backgroundColor: '#fde047',
+      textColor: '#111827',
+      isCloseable: false,
+    },
+
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
+    },
+
+    stylesheets: [
+      {
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
+        type: "text/css",
+      },
+    ],
+
     navbar: {
-		title: 'Clustron',
-	  logo: {
-		alt: 'Clustron Logo',
-		src: 'img/logo.svg',
-	  },
-	  
-	  
+      title: 'Clustron',
+      logo: {
+        alt: 'Clustron Logo',
+        src: 'img/logo.svg',
+      },
 
-	  items: [
-		{
-		  to: '/download',
-		  label: 'Downloads',
-		  position: 'left',
-		},
-		
-		{
-		  label: 'Docs',
-		  to: '/docs/clustron/dkv/overview',
-		  position: 'left',
-		},
-
-		{
-		  to: '/blog',
-		  label: 'Blog',
-		  position: 'left',
-		},
-
-		{
-			label: 'Contact Us',
-			to: '/contact',
-			position: 'right',
-			className: 'navbar-contact',
-		  },
-		{
-		  label: 'GitHub',
-		  href: 'https://github.com/zeroheartbeat/clustron-dkv',
-		  position: 'right',
-		},
-
-		{
-		  label: 'Download',
-		  to: '/download',
-		  position: 'right',
-		  className: 'navbar-cta',
-		},
-	  ],
-	},
+      items: [
+        {
+          to: '/download',
+          label: 'Downloads',
+          position: 'left',
+        },
+        {
+          label: 'Docs',
+          to: '/docs/clustron/dkv/overview',
+          position: 'left',
+        },
+        {
+          to: '/blog',
+          label: 'Blog',
+          position: 'left',
+        },
+        {
+          label: 'Contact Us',
+          to: '/contact',
+          position: 'right',
+          className: 'navbar-contact',
+        },
+        {
+          label: 'GitHub',
+          href: 'https://github.com/zeroheartbeat/clustron-dkv',
+          position: 'right',
+        },
+        {
+          label: 'Download',
+          to: '/download',
+          position: 'right',
+          className: 'navbar-cta',
+        },
+      ],
+    },
 
     footer: {
       style: 'dark',
@@ -187,16 +190,15 @@ const config: Config = {
     },
 
     prism: {
-	  theme: prismThemes.github,
-	  darkTheme: prismThemes.dracula,
-
-	  additionalLanguages: [
-		"csharp",
-		"powershell",
-		"bash",
-		"json"
-	  ],
-	},
+      theme: prismThemes.github,
+      darkTheme: prismThemes.dracula,
+      additionalLanguages: [
+        "csharp",
+        "powershell",
+        "bash",
+        "json"
+      ],
+    },
   } satisfies Preset.ThemeConfig,
 };
 

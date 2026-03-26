@@ -79,13 +79,14 @@ The installer automatically opens the recommended firewall port range:
 
 Clustron recommends the following port ranges.
 
-| Purpose | Port Range |
-|--------|------------|
-| Management Service | 7801 – 7810 |
-| Cluster Communication | 7811 – 7860 |
-| Client Connections | 7861 – 7899 |
+  Purpose                 Port Range
+  ----------------------- --------------
+  Management Service      7801 -- 7810
+  Cluster Communication   7811 -- 7860
+  Client Connections      7861 -- 7899
 
-You may use different ports if required, but ensure they are **open in the firewall on all machines**.
+You may use different ports if required, but ensure they are **open in
+the firewall on all machines**.
 
 ------------------------------------------------------------------------
 
@@ -203,9 +204,19 @@ dotnet add package Clustron.DKV.Client
 QuickStart_InProc.cs
 
 ``` csharp
-using Clustron.DKV.Client;
+using Clustron.DKV.Client.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
-var client = await DKVClient.InitializeInProc("demo");
+var services = new ServiceCollection()
+    .AddClustronDkvStores(cfg =>
+    {
+        cfg.AddStore("demo", s => s.UseInProc());
+    })
+    .BuildServiceProvider();
+
+var client = await services
+    .GetRequiredService<IDkvClientProvider>()
+    .GetAsync("demo");
 
 await client.PutAsync("hello", "world");
 
@@ -217,14 +228,23 @@ Console.WriteLine(value);
 QuickStart_Remote.cs
 
 ``` csharp
-using Clustron.DKV.Client;
+using Clustron.DKV.Client.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
-var client = await DKVClient.InitializeRemote(
-    "TestStore",
-    new[]
+var services = new ServiceCollection()
+    .AddClustronDkvStores(cfg =>
     {
-        new DkvServerInfo("localhost", 7861)
-    });
+        cfg.AddStore("TestStore", s =>
+        {
+            s.UseRemote()
+             .AddServer("localhost", 7861);
+        });
+    })
+    .BuildServiceProvider();
+
+var client = await services
+    .GetRequiredService<IDkvClientProvider>()
+    .GetAsync("TestStore");
 
 await client.PutAsync("hello", "world");
 
@@ -237,16 +257,16 @@ Console.WriteLine(value);
 
 # 9. Samples
 
-Clustron includes several **ready-to-run sample applications** that demonstrate
-how to use the platform in real-world scenarios.
+Clustron includes several **ready-to-run sample applications** that
+demonstrate how to use the platform in real-world scenarios.
 
 These samples show how to:
 
-- Perform basic **key-value operations**
-- Connect to a **distributed cluster**
-- Use **transactions**
-- Use **Locks & Leases**
-- Integrate Clustron into **production-style .NET applications**
+-   Perform basic **key-value operations**
+-   Connect to a **distributed cluster**
+-   Use **transactions**
+-   Use **Locks & Leases**
+-   Integrate Clustron into **production-style .NET applications**
 
 Browse the samples repository:
 

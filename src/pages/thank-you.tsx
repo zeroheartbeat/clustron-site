@@ -5,7 +5,7 @@ import Link from "@docusaurus/Link";
 export default function ThankYou() {
 
   const downloadUrl =
-    "https://github.com/zeroheartbeat/clustron-dkv/releases/download/v0.2.2/clustron-dkv-0.2.2-win-x64.zip";
+    "https://github.com/zeroheartbeat/clustron-dkv/releases/download/v0.2.3/clustron-dkv-0.2.3-win-x64.zip";
 
   useEffect(() => {
     const link = document.createElement("a");
