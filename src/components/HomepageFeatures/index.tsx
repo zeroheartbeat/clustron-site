@@ -15,32 +15,29 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Distributed Key-Value Storage',
+    title: 'Distributed Cache for .NET',
     Svg: KV,
     description: (
       <>
-        Clustron DKV provides a high-performance distributed key-value store
-        designed for modern distributed systems and scalable .NET applications.
+        High-performance distributed caching with seamless in-process and cluster modes.
       </>
     ),
   },
   {
-    title: 'Distributed Coordination',
+    title: 'Built-in Coordination Primitives',
     Svg: Coordination,
     description: (
       <>
-        Build reliable distributed systems using built-in coordination primitives
-        including leases, leader election, counters, watchers, and transactions.
+        Leader election, distributed locks, counters, watchers, and transactions — built-in.
       </>
     ),
   },
   {
-    title: 'Powerful Operational Tooling',
+    title: 'Production-Ready Tooling',
     Svg: Tooling,
     description: (
       <>
-        Manage clusters and automate operations using the Clustron PowerShell CLI
-        including <strong>ClientShell</strong> and <strong>AdminShell</strong>.
+        Manage clusters and automate operations using powerful CLI tooling and APIs.
       </>
     ),
   },
@@ -48,15 +45,22 @@ const FeatureList: FeatureItem[] = [
 
 function Feature({title, Svg, description}: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
+    <div className={clsx('col col--4', styles.featureCol)}>
+      <div className={styles.featureCard}>
 
-      <div className="text--center padding-horiz--md">
-        <Heading as="h3">{title}</Heading>
-        <p>{description}</p>
-      </div>
+		  <div className={styles.featureIcon}>
+			<Svg className={styles.featureSvg} role="img" />
+		  </div>
+
+		  <Heading as="h3" className={styles.featureTitle}>
+			{title}
+		  </Heading>
+
+		  <p className={styles.featureDesc}>
+			{description}
+		  </p>
+
+		</div>
     </div>
   );
 }

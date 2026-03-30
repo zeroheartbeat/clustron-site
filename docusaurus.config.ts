@@ -83,13 +83,13 @@ headTags: [
     ],
 
     announcementBar: {
-      id: 'clustron_launch',
-      content:
-        '🚀 Clustron DKV (<span style="color:#ef4444;font-weight:700">Beta</span>) is now available — build reliable distributed systems with .NET',
-      backgroundColor: '#fde047',
-      textColor: '#111827',
-      isCloseable: false,
-    },
+		  id: 'clustron_launch',
+		  content:
+			'🚀 Clustron DKV <strong style="color:#ef4444">&nbsp;(BETA)&nbsp;</strong> — Distributed systems for .NET',
+		  backgroundColor: '#fde047',
+		  textColor: '#111827',
+		  isCloseable: false,
+		},
 
     colorMode: {
       defaultMode: 'light',
@@ -186,7 +186,7 @@ headTags: [
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Clustron. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Clustron.`,
     },
 
     prism: {

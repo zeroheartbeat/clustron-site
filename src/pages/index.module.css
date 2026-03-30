@@ -11,8 +11,7 @@
   position: relative;
   overflow: hidden;
 
-  background:
-    linear-gradient(135deg,#dbeafe,#e0f2fe);
+  background: linear-gradient(135deg, #f8fafc, #e0f2fe);
 }
 
 .heroBanner::after {
@@ -58,7 +57,7 @@
 }
 
 .heroButtons {
-  margin-top: 2rem;
+  margin-top: 32px;
   display: flex;
   gap: 1rem;
 }
@@ -85,6 +84,10 @@
     0 0 0 1px rgba(255,255,255,0.5) inset;
 
   position: relative;
+  transform-origin: top left;
+  transform: scale(0.92);
+  opacity: 0.88;
+  
 }
 
 .codeCard::before {
@@ -141,7 +144,7 @@
 /* ------------------------------------------------ */
 
 .capabilityStrip {
-  padding: 20px 0;
+  padding: 2px 0;
   border-top: 1px solid var(--ifm-color-emphasis-200);
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
 }
@@ -177,14 +180,16 @@
 /* ------------------------------------------------ */
 
 .positioningSection {
-  padding: 40px 0;
-  background: var(--ifm-color-emphasis-100);
+  padding: 30px 0;
+  background: #f1f5f9;   /* slightly darker than page */
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .positioningText {
   font-size: 1.3rem;
-  max-width: 900px;
-  margin: auto;
+  max-width: 700px;
+  margin: 0 auto;
   line-height: 1.6;
 }
 
@@ -237,11 +242,41 @@
 /* CTA                                              */
 /* ------------------------------------------------ */
 
-.ctaSection {
-  margin-top: 5rem;
-  padding: 60px 0;
+.ctaActions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
 
-  background: var(--ifm-color-emphasis-100);
+.ctaActions .button {
+  margin: 0 !important;   /* 🔥 removes Docusaurus default gap */
+}
+
+.ctaTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ctaSubtitle {
+  font-size: 1.15rem;
+  color: #334155;
+  line-height: 1.7;
+}
+
+.ctaActions {
+  margin-top: 8px;
+}
+
+.ctaActions .button--primary {
+  transition: all 0.2s ease;
+}
+
+.ctaActions .button--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
 }
 
 .ctaSubtext {
@@ -250,4 +285,288 @@
 
   opacity: 0.8;
   font-size: 1.1rem;
+}
+
+.heroTitle {
+  max-width: 650px;
+  font-size: 2.6rem !important;
+  line-height: 1.05;
+}
+
+.highlight {
+  color: #2563eb;
+}
+
+.subtle {
+  font-size: 0.85em;
+  color: #374151; /* darker */
+  font-weight: 500;
+}
+
+.heroSubtitle {
+  margin-top: 16px;
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.heroPain {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  color: #b91c1c; /* stronger red */
+  font-weight: 500;
+}
+
+.heroBullets {
+  margin-top: 18px;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #1f2937 !important;
+}
+
+.heroBullets div {
+  position: relative;
+  padding-left: 18px;
+}
+
+.heroBullets div::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.heroTrust {
+  margin-top: 16px;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.buttons {
+  margin-top: 24px;
+}
+
+.useCases {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+
+  margin: 0;        /* 🔥 remove ALL vertical spacing */
+  padding: 6px 0;   /* small breathing */
+}
+
+.useCases span {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.useCases span:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.redisSection {
+  padding: 30px 0;
+  background: #ffffff;
+  text-align: center;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+.redisTitle {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.redisSubtitle {
+  margin-top: 10px;
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+.redisGrid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.redisCard {
+  background: #f9fafb;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.redisCardHighlight {
+  background: #eff6ff;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: left;
+  border: 2px solid #2563eb;
+}
+
+.redisCard h3,
+.redisCardHighlight h3 {
+  margin-bottom: 12px;
+}
+
+.redisCard ul,
+.redisCardHighlight ul {
+  list-style: none;
+  padding: 0;
+}
+
+.redisCard li,
+.redisCardHighlight li {
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 18px;
+}
+
+.redisCard li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: #9ca3af;
+}
+
+.redisCardHighlight li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #2563eb;
+}
+
+.redisFooter {
+  margin-top: 30px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.performanceSection {
+  padding: 30px 0;
+  background: #f8fafc;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+.performanceSubtitle {
+  margin-top: 10px;
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+.performanceGrid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.performanceCard {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: left;
+  border: 1px solid #e5e7eb;
+}
+
+.performanceCard h3 {
+  margin-bottom: 10px;
+}
+
+.performanceFooter {
+  margin-top: 30px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .performanceGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.useCasesSection {
+  padding: 30px 0;
+  background: #ffffff;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+.useCasesSubtitle {
+  margin-top: 10px;
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+.useCasesGrid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.useCaseCard {
+  background: #f9fafb;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: left;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.useCaseCard:hover {
+  border-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+.useCaseCard h3 {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .useCasesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.features + * {
+  margin-top: 0 !important;
+}
+
+.container {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.sectionDivider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 10px 0;   /* 🔥 reduce from default large spacing */
+}
+
+@media (max-width: 768px) {
+  .ctaActions {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ctaActions .button {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroBanner {
+    padding: 2.5rem 0;
+  }
 }

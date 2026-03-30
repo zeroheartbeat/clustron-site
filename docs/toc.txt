@@ -1,0 +1,170 @@
+Clustron DKV
+│
+├── Getting Started
+│   ├── Overview
+│   ├── Installation
+│   ├── Quick Start ⭐
+│   ├── Run In-Process (No Infrastructure) ⭐
+│   ├── Run Distributed (2-Node Setup)
+│   ├── Configuration (appsettings.json)
+│   └── First Operations (Put / Get / Delete)
+│
+├── Core Concepts
+│   ├── Overview
+│   ├── Store
+│   ├── InProc vs Remote ⭐
+│   ├── Keys & Values
+│   ├── TTL & Expiration
+│   ├── Leases ⭐
+│   │   ├── What is a Lease
+│   │   ├── Lease Lifecycle
+│   │   ├── Binding Keys to Leases
+│   │   └── Failure & Expiry Behavior
+│   ├── Consistency Model
+│   └── Coordination Model ⭐
+│       ├── Locks
+│       ├── Counters
+│       └── Watch
+│
+├── Admin Guide
+│   ├── Overview
+│   ├── Connecting to Cluster
+│   │   └── Connect-DkvManager
+│   ├── Creating a Store
+│   │   └── New-DkvStore
+│   ├── Starting & Stopping Stores
+│   │   ├── Start-DkvStore
+│   │   └── Stop-DkvStore
+│   ├── Viewing Store Information
+│   │   └── Get-DkvStore
+│   ├── Multi-Node Configuration ⭐
+│   ├── Ports & Networking
+│   │   ├── Management Port (7801)
+│   │   ├── Cluster Ports
+│   │   └── Client Ports
+│   ├── Monitoring & Metrics
+│   │   └── Watch-DkvStoreMetrics
+│   └── Troubleshooting
+│       ├── Node Connectivity Issues
+│       ├── Port Conflicts
+│       └── Common Errors
+│
+├── Developer Guide
+│   ├── Overview
+│   │
+│   ├── Getting a Client ⭐
+│   │   ├── Dependency Injection Setup
+│   │   ├── AddClustronDkv
+│   │   └── IDkvClientProvider
+│   │
+│   ├── Basic Operations
+│   │   ├── PutAsync
+│   │   ├── GetAsync
+│   │   └── DeleteAsync
+│   │
+│   ├── Bulk Operations
+│   │   ├── PutManyAsync
+│   │   ├── GetManyAsync
+│   │   └── DeleteManyAsync
+│   │
+│   ├── Batch Operations ⭐
+│   │   ├── ExecuteBatchAsync
+│   │   └── When to Use Batch vs Bulk
+│   │
+│   ├── Clear Operations
+│   │   ├── ClearAsync
+│   │   └── Prefix / Range Clearing
+│   │
+│   ├── Locks ⭐
+│   │   ├── AcquireAsync
+│   │   ├── Lease-Based Locking Model
+│   │   ├── TTL Behavior
+│   │   └── Best Practices
+│   │
+│   ├── Leases ⭐ (FOUNDATION)
+│   │   ├── GrantAsync
+│   │   ├── KeepAliveAsync
+│   │   ├── RevokeAsync
+│   │   ├── Lease Lifecycle
+│   │   └── Attaching Keys to Leases
+│   │
+│   ├── Counters
+│   │   ├── AddAsync
+│   │   ├── GetAsync
+│   │   └── SetAsync
+│   │
+│   ├── Watch ⭐
+│   │   ├── WatchKeyAsync
+│   │   ├── WatchPrefixAsync
+│   │   ├── Event Model
+│   │   └── Initial Snapshot
+│   │
+│   ├── Scan & Query
+│   │   ├── ScanAsync
+│   │   ├── SearchAsync
+│   │   ├── Aggregation
+│   │   └── GroupBy
+│   │
+│   ├── Transactions ⭐
+│   │   ├── BeginTransactionAsync
+│   │   ├── Transactional Put/Get/Delete
+│   │   ├── CommitAsync
+│   │   ├── RollbackAsync
+│   │   ├── Guarantees
+│   │   └── When to Use Transactions vs Batch
+│   │
+│   ├── Serialization
+│   │   └── Deserialize<T>
+│   │
+│   ├── Defaults & Options
+│   │   ├── RequestDefaults
+│   │   ├── PutOptions
+│   │   └── GetOptions
+│   │
+│   ├── Error Handling
+│   │   ├── KvResult Patterns
+│   │   └── Retry Strategies
+│   │
+│   └── Client Lifecycle
+│       ├── Disposal
+│       ├── Reuse
+│       └── Thread Safety
+│
+├── CLI
+│   ├── Overview
+│   │
+│   ├── AdminShell
+│   │   ├── Connect-DkvManager
+│   │   ├── New-DkvStore
+│   │   ├── Start-DkvStore
+│   │   ├── Stop-DkvStore
+│   │   ├── Get-DkvStore
+│   │   └── Watch-DkvStoreMetrics
+│   │
+│   └── ClientShell
+│       ├── Connect-DkvStore
+│       ├── Disconnect-DkvStore
+│       ├── Get-DkvConnection
+│       ├── Get-DkvItem
+│       ├── Get-DkvItems
+│       ├── Get-DkvCounter
+│       ├── Grant-DkvLease
+│       └── Benchmark-DkvStore
+│
+├── Samples
+│   ├── Overview
+│   ├── Basic Key-Value Operations
+│   ├── Distributed Lock ⭐
+│   ├── Lease + TTL ⭐
+│   ├── Counters
+│   ├── Watch (Reactive Patterns)
+│   ├── Transactions ⭐
+│   └── Multi-Node Setup
+│
+└── FAQs
+    ├── Do I Need Redis?
+    ├── When Should I Use InProc?
+    ├── What Happens on Failure?
+    ├── Are Locks Reliable?
+    ├── How Does This Compare to Distributed Cache?
+    └── Performance Considerations

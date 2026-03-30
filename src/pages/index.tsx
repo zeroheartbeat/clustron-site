@@ -75,20 +75,23 @@ function HomepageHeader() {
 
           <div className="col col--6">
 
-            <Heading as="h1" className={styles.heroTitle}>
-              Clustron
-            </Heading>
+			<Heading as="h1" className={styles.heroTitle}>
+			  Distributed Cache for .NET
+			  <br />
+			  <span className={styles.highlight}>Built natively for .NET</span>
+			</Heading>
+			
+			<p className={styles.heroPain}>
+			  Stop managing Redis clusters for your .NET apps.
+			</p>
 
-            <p className={styles.heroSubtitle}>
-              Distributed Cache and Coordination Platform for .NET
-            </p>
-
-            <p className={styles.heroDescription}>
-              Build reliable distributed systems using a high-performance
-              key-value store with built-in coordination primitives like
-              locks, leader election, transactions, and watches.
-            </p>
-
+			<div className={styles.heroBullets}>
+			  <div>No external dependencies</div>
+			  <div>Runs fully in-process</div>
+			  <div>Seamless scale to cluster</div>
+			  <div>Built for modern .NET (DI-first)</div>
+			</div>
+				
             <div className={styles.heroButtons}>
 
               <Link
@@ -106,7 +109,7 @@ function HomepageHeader() {
                 onClick={() =>
                   trackEvent("github_click", { location: "hero" })
                 }>
-                View on GitHub
+                ⭐ Star on GitHub
               </Link>
 
             </div>
@@ -138,19 +141,20 @@ export default function Home(): ReactNode {
       description="Clustron is a distributed cache and key-value platform for .NET that enables applications to form clusters, coordinate nodes, perform leader election, and manage distributed state with high performance.">
 
       <HomepageHeader />
+	  
+	  <HomepageFeatures />
 
       {/* Capability Strip */}
 
       <section className={styles.capabilityStrip}>
         <div className="container">
-          <div className={styles.capabilityItems}>
-            <span>Distributed Key-Value</span>
-            <span>Leader Election</span>
-            <span>Distributed Locks</span>
-            <span>Transactions</span>
-            <span>Watch Notifications</span>
-            <span>TTL Scheduling</span>
-          </div>
+         <div className={styles.useCases}>
+		  <span>Distributed caching</span>
+		  <span>Session storage</span>
+		  <span>High-performance APIs</span>
+		  <span>Leader election</span>
+		  <span>Distributed locks</span>
+		</div>
         </div>
       </section>
 
@@ -173,10 +177,154 @@ export default function Home(): ReactNode {
 
         </div>
       </section>
+	  
+	  <section className={styles.redisSection}>
+		  <div className="container text--center">
+			<h2 className={styles.redisTitle}>
+			  Why Not Redis for .NET?
+			</h2>
 
+			<p className={styles.redisSubtitle}>
+			  Redis is powerful — but often overkill for many .NET applications.
+			</p>
+
+			<div className={styles.redisGrid}>
+			  <div className={styles.redisCard}>
+				<h3>Redis</h3>
+				<ul>
+				  <li>Requires external infrastructure</li>
+				  <li>Separate deployment & maintenance</li>
+				  <li>Network overhead for every call</li>
+				  <li>Generic (not .NET-native)</li>
+				</ul>
+			  </div>
+
+			  <div className={styles.redisCardHighlight}>
+				<h3>Clustron</h3>
+				<ul>
+				  <li>Runs in-process (zero setup)</li>
+				  <li>Scales to cluster when needed</li>
+				  <li>No network cost in local mode</li>
+				  <li>Built specifically for .NET</li>
+				</ul>
+			  </div>
+			</div>
+
+			<p className={styles.redisFooter}>
+			  Start simple. Scale when needed. Stay in .NET.
+			</p>
+		  </div>
+		</section>
+
+		{/* 🔥 PERFORMANCE SECTION */}
+
+		<section className={styles.performanceSection}>
+		  <div className="container text--center">
+
+			<h2 className={styles.sectionTitle}>
+			  Built for High-Performance .NET Workloads
+			</h2>
+
+			<p className={styles.performanceSubtitle}>
+			  Designed for low-latency, high-throughput applications — without the overhead of external systems.
+			</p>
+
+			<div className={styles.performanceGrid}>
+
+			  <div className={styles.performanceCard}>
+				<h3>⚡ In-Process Speed</h3>
+				<p>
+				  Zero network overhead when running in-process. Achieve ultra-low latency
+				  for critical application paths.
+				</p>
+			  </div>
+
+			  <div className={styles.performanceCard}>
+				<h3>🚀 Scales to Distributed</h3>
+				<p>
+				  Seamlessly transition to a distributed cluster when your system grows —
+				  without changing your application code.
+				</p>
+			  </div>
+
+			  <div className={styles.performanceCard}>
+				<h3>🧠 Optimized for .NET</h3>
+				<p>
+				  Built using modern .NET patterns, memory-efficient structures, and async-first APIs.
+				</p>
+			  </div>
+
+			</div>
+
+			<p className={styles.performanceFooter}>
+			  Start local. Scale globally. No rewrites.
+			</p>
+
+		  </div>
+		</section>
+		
+		{/* 🔥 USE CASES SECTION */}
+
+		<section className={styles.useCasesSection}>
+		  <div className="container text--center">
+
+			<h2 className={styles.sectionTitle}>
+			  Built for Real-World .NET Applications
+			</h2>
+
+			<p className={styles.useCasesSubtitle}>
+			  From simple caching to distributed coordination — Clustron adapts to your needs.
+			</p>
+
+			<div className={styles.useCasesGrid}>
+
+			  <div className={styles.useCaseCard}>
+				<h3>🗄️ API Response Caching</h3>
+				<p>
+				  Cache expensive queries and API responses with near-zero latency using in-process mode.
+				</p>
+			  </div>
+
+			  <div className={styles.useCaseCard}>
+				<h3>🔐 Session Storage</h3>
+				<p>
+				  Manage user sessions reliably across instances with seamless distributed support.
+				</p>
+			  </div>
+
+			  <div className={styles.useCaseCard}>
+				<h3>⚙️ Distributed Locks</h3>
+				<p>
+				  Coordinate background jobs and critical sections safely using built-in locking primitives.
+				</p>
+			  </div>
+
+			  <div className={styles.useCaseCard}>
+				<h3>👑 Leader Election</h3>
+				<p>
+				  Elect a leader node for scheduling, coordination, or task orchestration.
+				</p>
+			  </div>
+
+			  <div className={styles.useCaseCard}>
+				<h3>📡 Watch Notifications</h3>
+				<p>
+				  React to data changes in real-time using watch and event-based APIs.
+				</p>
+			  </div>
+
+			  <div className={styles.useCaseCard}>
+				<h3>⏱️ TTL & Expiry Workflows</h3>
+				<p>
+				  Automatically expire data and trigger workflows using built-in TTL scheduling.
+				</p>
+			  </div>
+
+			</div>
+
+		  </div>
+		</section>
       <main>
-
-        <HomepageFeatures />
 
         {/* Architecture */}
 
@@ -246,27 +394,34 @@ export default function Home(): ReactNode {
         {/* CTA */}
 
         <section className={styles.ctaSection}>
-          <div className="container text--center">
+		  <div className="container text--center">
 
-            <Heading as="h2">
-              Start building distributed systems today
-            </Heading>
+			<h2 className={styles.ctaTitle}>
+			  Build your first distributed system in minutes
+			</h2>
 
-            <p className={styles.ctaSubtext}>
-              Install the Clustron client and run your first distributed store in minutes.
-            </p>
+			<p className={styles.ctaSubtitle}>
+			  No Redis. No setup. No infrastructure.
+			  <br />
+			  Just .NET.
+			</p>
 
-            <Link
-              className="button button--primary button--lg"
-              to="/docs/clustron/dkv/getting-started/overview"
-              onClick={() =>
-                trackEvent("cta_get_started", { location: "bottom" })
-              }>
-              Get Started
-            </Link>
+			<div className={styles.ctaActions}>
+			  <a className="button button--primary button--lg" href="/docs/clustron/dkv/getting-started/overview">
+				🚀 Get Started in 2 Minutes
+			  </a>
 
-          </div>
-        </section>
+			  <a
+				className="button button--outline button--lg"
+				href="https://github.com/zeroheartbeat/clustron-dkv"
+				target="_blank"
+			  >
+				⭐ View on GitHub
+			  </a>
+			</div>
+
+		  </div>
+		</section>
 
       </main>
 

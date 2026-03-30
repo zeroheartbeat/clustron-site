@@ -1,4 +1,4 @@
-# Clustron DKV Architecture
+# Architecture
 
 ## Overview
 
@@ -282,3 +282,10 @@ Clustron DKV is in active development.
 Core engine stabilization and documentation publication are ongoing.
 
 Public open-source release of the core engine is planned for 2026 under a Business Source License.
+
+
+---
+
+## What’s Next
+
+👉 Continue to **Store** to understand how clusters are structured.

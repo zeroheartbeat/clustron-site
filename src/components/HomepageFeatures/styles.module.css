@@ -1,11 +1,78 @@
 .features {
   display: flex;
   align-items: center;
-  padding: 2rem 0;
+  padding: 24px 0;   /* 🔥 reduced */
   width: 100%;
+  padding: 20px 0 6px 0;
+}
+
+.features .row {
+  margin-bottom: 0;
 }
 
 .featureSvg {
   height: 200px;
   width: 200px;
 }
+
+.featureCol {
+  display: flex;
+  align-items: stretch;
+}
+
+.featureCard {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px 16px; 
+  width: 100%;
+  text-align: center;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+}
+
+/* 🔥 Hover effect */
+.featureCard:hover {
+  transform: translateY(-6px);
+  border-color: #2563eb;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+/* Icon container */
+.featureIcon {
+  width: 56px;
+  height: 56x;
+  margin: 0 auto 10px auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #eff6ff;
+  border-radius: 12px;
+}
+
+/* SVG inside icon */
+.featureSvg {
+  width: 36px;
+  height: 36px;
+}
+
+/* Title */
+.featureTitle {
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+}
+
+/* Description */
+.featureDesc {
+  font-size: 0.95rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+hr {
+  margin: 16px 0 !important;
+}
+

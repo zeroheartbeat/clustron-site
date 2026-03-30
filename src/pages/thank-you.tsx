@@ -82,7 +82,7 @@ export default function ThankYou() {
 
             <Link
               className="card padding--md"
-              to="/docs/clustron/dkv/architecture/overview/"
+              to="/docs/clustron/dkv/core-concepts/architecture/"
             >
               <h3>Architecture</h3>
               <p>Understand how Clustron distributes data across nodes.</p>
