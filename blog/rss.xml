@@ -4,10 +4,176 @@
         <title>Clustron Blog</title>
         <link>https://clustron.io/blog/</link>
         <description>Clustron Blog</description>
-        <lastBuildDate>Mon, 16 Mar 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 30 Mar 2026 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
+        <item>
+            <title><![CDATA[Build Reactive Systems with Clustron Watch]]></title>
+            <link>https://clustron.io/blog/2026/03/30/watch-changes/</link>
+            <guid>https://clustron.io/blog/2026/03/30/watch-changes/</guid>
+            <pubDate>Mon, 30 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Most distributed systems don’t start out complicated.]]></description>
+            <content:encoded><![CDATA[<p>Most distributed systems don’t start out complicated.</p>
+<p>They begin with something simple — a loop.</p>
+<p>You write a small worker that checks for work:</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">while</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">(</span><span class="token boolean" style="color:#36acaa">true</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token class-name keyword" style="color:#00009f">var</span><span class="token plain"> job </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> client</span><span class="token punctuation" style="color:#393A34">.</span><span class="token generic-method function" style="color:#d73a49">GetAsync</span><span class="token generic-method generic class-name punctuation" style="color:#393A34">&lt;</span><span class="token generic-method generic class-name">Job</span><span class="token generic-method generic class-name punctuation" style="color:#393A34">&gt;</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">"jobs:next"</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">if</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">job</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">IsSuccess</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">ProcessAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">job</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Value</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> Task</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">Delay</span><span class="token punctuation" style="color:#393A34">(</span><span class="token number" style="color:#36acaa">1000</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre></div></div>
+<p>At this stage, everything feels reasonable. The logic is clear, the system behaves predictably, and there is very little cognitive overhead.</p>
+<p>But as the system grows, this pattern quietly becomes one of the most expensive parts of your architecture.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-hidden-cost-of-polling-in-distributed-systems">The Hidden Cost of Polling in Distributed Systems<a href="https://clustron.io/blog/2026/03/30/watch-changes/#the-hidden-cost-of-polling-in-distributed-systems" class="hash-link" aria-label="Direct link to The Hidden Cost of Polling in Distributed Systems" title="Direct link to The Hidden Cost of Polling in Distributed Systems" translate="no">​</a></h2>
+<p>Polling introduces a fundamental inefficiency: you are repeatedly asking the system for changes that usually haven’t happened.</p>
+<p>As you scale:</p>
+<ul>
+<li class="">Multiple instances begin polling the same data</li>
+<li class="">Each instance performs repeated reads, most of which return no useful information</li>
+<li class="">You introduce artificial latency — changes are only detected on the next polling cycle</li>
+<li class="">The system starts consuming resources simply to confirm that nothing has changed</li>
+</ul>
+<p>This leads to a system that is technically correct, but operationally inefficient.</p>
+<p>More importantly, polling forces you to make tradeoffs you shouldn’t have to make:</p>
+<ul>
+<li class="">Poll frequently → higher cost, lower latency</li>
+<li class="">Poll less frequently → lower cost, higher latency</li>
+</ul>
+<p>There is no correct answer — only compromise.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="a-different-model-reacting-instead-of-asking">A Different Model: Reacting Instead of Asking<a href="https://clustron.io/blog/2026/03/30/watch-changes/#a-different-model-reacting-instead-of-asking" class="hash-link" aria-label="Direct link to A Different Model: Reacting Instead of Asking" title="Direct link to A Different Model: Reacting Instead of Asking" translate="no">​</a></h2>
+<p>The alternative is not just an optimization — it is a different way of thinking about systems.</p>
+<p>Instead of asking:</p>
+<blockquote>
+<p>“Has something changed?”</p>
+</blockquote>
+<p>You design your system to respond to:</p>
+<blockquote>
+<p>“Something just changed.”</p>
+</blockquote>
+<p>This is the shift from a <strong>pull-based model</strong> to a <strong>push-based model</strong>.</p>
+<p>In Clustron, this is implemented through Watch.</p>
+<hr>
+<p><img decoding="async" loading="lazy" alt="Polling model vs watching changes" src="https://clustron.io/assets/images/diagram-ee01eb60798fc51fb1c3beef2a907c7e.png" width="1536" height="1024" class="img_ev3q"></p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="introducing-watch-a-stream-of-state-changes">Introducing Watch: A Stream of State Changes<a href="https://clustron.io/blog/2026/03/30/watch-changes/#introducing-watch-a-stream-of-state-changes" class="hash-link" aria-label="Direct link to Introducing Watch: A Stream of State Changes" title="Direct link to Introducing Watch: A Stream of State Changes" translate="no">​</a></h2>
+<p>Clustron Watch allows you to subscribe to changes in the system and receive events as they happen.</p>
+<p>At its core, Watch turns your data into a <strong>continuous stream of updates</strong>.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="watching-a-single-key">Watching a Single Key<a href="https://clustron.io/blog/2026/03/30/watch-changes/#watching-a-single-key" class="hash-link" aria-label="Direct link to Watching a Single Key" title="Direct link to Watching a Single Key" translate="no">​</a></h3>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">var</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">subscription</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> initialRecord</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> client</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Watch</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WatchKeyAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string" style="color:#e3116c">"order:1001"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">new</span><span class="token plain"> </span><span class="token constructor-invocation class-name">WatchOptions</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"> IncludeInitialSnapshot </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">true</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    ev </span><span class="token operator" style="color:#393A34">=&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        Console</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WriteLine</span><span class="token punctuation" style="color:#393A34">(</span><span class="token interpolation-string string" style="color:#e3116c">$"</span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">{</span><span class="token interpolation-string interpolation expression language-csharp">ev</span><span class="token interpolation-string interpolation expression language-csharp punctuation" style="color:#393A34">.</span><span class="token interpolation-string interpolation expression language-csharp">EventType</span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">}</span><span class="token interpolation-string string" style="color:#e3116c"> → </span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">{</span><span class="token interpolation-string interpolation expression language-csharp">ev</span><span class="token interpolation-string interpolation expression language-csharp punctuation" style="color:#393A34">.</span><span class="token interpolation-string interpolation expression language-csharp">Key</span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">}</span><span class="token interpolation-string string" style="color:#e3116c"> = </span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">{</span><span class="token interpolation-string interpolation expression language-csharp">ev</span><span class="token interpolation-string interpolation expression language-csharp punctuation" style="color:#393A34">.</span><span class="token interpolation-string interpolation expression language-csharp">Value</span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">}</span><span class="token interpolation-string string" style="color:#e3116c">"</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<p>This does two important things:</p>
+<ol>
+<li class="">It gives you the current state (<code>initialRecord</code>)</li>
+<li class="">It subscribes you to all future changes</li>
+</ol>
+<p>This combination is critical. Without it, you would have to manually fetch the current value and then subscribe — which introduces race conditions.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="snapshot--streaming-a-correctness-guarantee">Snapshot + Streaming: A Correctness Guarantee<a href="https://clustron.io/blog/2026/03/30/watch-changes/#snapshot--streaming-a-correctness-guarantee" class="hash-link" aria-label="Direct link to Snapshot + Streaming: A Correctness Guarantee" title="Direct link to Snapshot + Streaming: A Correctness Guarantee" translate="no">​</a></h2>
+<p>One of the subtle but essential aspects of Watch is the ability to include an initial snapshot.</p>
+<p>When <code>IncludeInitialSnapshot</code> is enabled:</p>
+<ul>
+<li class="">You receive the current value at the time of subscription</li>
+<li class="">You then receive all subsequent updates in order</li>
+</ul>
+<p>This ensures that:</p>
+<ul>
+<li class="">You do not miss existing state</li>
+<li class="">You do not miss future changes</li>
+<li class="">You do not need additional synchronization logic</li>
+</ul>
+<p>In other words, Watch provides a <strong>complete and consistent view of state evolution</strong>.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="watching-collections-moving-beyond-single-keys">Watching Collections: Moving Beyond Single Keys<a href="https://clustron.io/blog/2026/03/30/watch-changes/#watching-collections-moving-beyond-single-keys" class="hash-link" aria-label="Direct link to Watching Collections: Moving Beyond Single Keys" title="Direct link to Watching Collections: Moving Beyond Single Keys" translate="no">​</a></h2>
+<p>While watching a single key is useful, most real systems operate on groups of related data.</p>
+<p>Clustron supports this through prefix-based watching:</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token class-name keyword" style="color:#00009f">var</span><span class="token plain"> subscription </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> client</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Watch</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WatchPrefixAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string" style="color:#e3116c">"jobs:"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">new</span><span class="token plain"> </span><span class="token constructor-invocation class-name">WatchOptions</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"> IncludeInitialSnapshot </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">false</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    ev </span><span class="token operator" style="color:#393A34">=&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        Console</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WriteLine</span><span class="token punctuation" style="color:#393A34">(</span><span class="token interpolation-string string" style="color:#e3116c">$"Job update: </span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">{</span><span class="token interpolation-string interpolation expression language-csharp">ev</span><span class="token interpolation-string interpolation expression language-csharp punctuation" style="color:#393A34">.</span><span class="token interpolation-string interpolation expression language-csharp">Key</span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">}</span><span class="token interpolation-string string" style="color:#e3116c">"</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<p>This allows you to observe all changes within a logical group.</p>
+<p>From an architectural perspective, this is where Watch becomes significantly more powerful:</p>
+<ul>
+<li class="">You are no longer reacting to individual values</li>
+<li class="">You are reacting to <strong>system-wide state transitions</strong></li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="understanding-the-event-model">Understanding the Event Model<a href="https://clustron.io/blog/2026/03/30/watch-changes/#understanding-the-event-model" class="hash-link" aria-label="Direct link to Understanding the Event Model" title="Direct link to Understanding the Event Model" translate="no">​</a></h2>
+<p>Each change in the system produces a <code>WatchEvent</code>.</p>
+<p>A typical event contains:</p>
+<ul>
+<li class="">The key that changed</li>
+<li class="">The type of change (<code>Put</code> or <code>Delete</code>)</li>
+<li class="">The new value (if applicable)</li>
+<li class="">A revision representing the version of the change</li>
+</ul>
+<p>This revision is particularly important. It provides ordering and allows you to reason about the sequence of events across a distributed system.</p>
+<p>Effectively, Watch gives you a <strong>log of state transitions</strong>, delivered in real time.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-this-enables-in-practice">What This Enables in Practice<a href="https://clustron.io/blog/2026/03/30/watch-changes/#what-this-enables-in-practice" class="hash-link" aria-label="Direct link to What This Enables in Practice" title="Direct link to What This Enables in Practice" translate="no">​</a></h2>
+<p>Once you adopt this model, several common problems become simpler.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="job-processing">Job Processing<a href="https://clustron.io/blog/2026/03/30/watch-changes/#job-processing" class="hash-link" aria-label="Direct link to Job Processing" title="Direct link to Job Processing" translate="no">​</a></h3>
+<p>Instead of polling for new work, workers react immediately when jobs are created or updated.</p>
+<p>This removes idle cycles and reduces latency.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="cache-invalidation">Cache Invalidation<a href="https://clustron.io/blog/2026/03/30/watch-changes/#cache-invalidation" class="hash-link" aria-label="Direct link to Cache Invalidation" title="Direct link to Cache Invalidation" translate="no">​</a></h3>
+<p>Rather than relying on TTL or periodic refresh, caches can update themselves in response to actual changes.</p>
+<p>This improves both freshness and efficiency.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="distributed-coordination">Distributed Coordination<a href="https://clustron.io/blog/2026/03/30/watch-changes/#distributed-coordination" class="hash-link" aria-label="Direct link to Distributed Coordination" title="Direct link to Distributed Coordination" translate="no">​</a></h3>
+<p>Systems that rely on shared state — such as leader election or lease ownership — benefit significantly from real-time updates.</p>
+<p>Changes propagate instantly, allowing faster and more reliable coordination.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="presence-and-monitoring">Presence and Monitoring<a href="https://clustron.io/blog/2026/03/30/watch-changes/#presence-and-monitoring" class="hash-link" aria-label="Direct link to Presence and Monitoring" title="Direct link to Presence and Monitoring" translate="no">​</a></h3>
+<p>Tracking active components becomes trivial:</p>
+<ul>
+<li class="">When a node appears → you receive an event</li>
+<li class="">When a node disappears → you receive an event</li>
+</ul>
+<p>No polling, no guessing.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="operational-considerations">Operational Considerations<a href="https://clustron.io/blog/2026/03/30/watch-changes/#operational-considerations" class="hash-link" aria-label="Direct link to Operational Considerations" title="Direct link to Operational Considerations" translate="no">​</a></h2>
+<p>Watch is designed for long-running, event-driven workloads.</p>
+<p>A few important considerations:</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="keep-handlers-lightweight">Keep Handlers Lightweight<a href="https://clustron.io/blog/2026/03/30/watch-changes/#keep-handlers-lightweight" class="hash-link" aria-label="Direct link to Keep Handlers Lightweight" title="Direct link to Keep Handlers Lightweight" translate="no">​</a></h3>
+<p>Your event handler should not perform heavy work directly.</p>
+<p>Instead:</p>
+<ul>
+<li class="">Process quickly</li>
+<li class="">Delegate heavier tasks to background workers</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="manage-subscription-lifecycle">Manage Subscription Lifecycle<a href="https://clustron.io/blog/2026/03/30/watch-changes/#manage-subscription-lifecycle" class="hash-link" aria-label="Direct link to Manage Subscription Lifecycle" title="Direct link to Manage Subscription Lifecycle" translate="no">​</a></h3>
+<p>Always stop subscriptions when they are no longer needed:</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> subscription</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">StopAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<p>This ensures resources are released cleanly.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="understand-scope">Understand Scope<a href="https://clustron.io/blog/2026/03/30/watch-changes/#understand-scope" class="hash-link" aria-label="Direct link to Understand Scope" title="Direct link to Understand Scope" translate="no">​</a></h3>
+<ul>
+<li class="">Watching a key → only that key produces events</li>
+<li class="">Watching a prefix → only matching keys produce events</li>
+</ul>
+<p>Events are scoped and isolated, which prevents unintended cross-talk between components.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="from-polling-loops-to-reactive-systems">From Polling Loops to Reactive Systems<a href="https://clustron.io/blog/2026/03/30/watch-changes/#from-polling-loops-to-reactive-systems" class="hash-link" aria-label="Direct link to From Polling Loops to Reactive Systems" title="Direct link to From Polling Loops to Reactive Systems" translate="no">​</a></h2>
+<p>The shift from polling to watching is not just about performance.</p>
+<p>It changes the structure of your application.</p>
+<p>Polling systems are built around:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Loop → Check → Wait → Repeat</span><br></span></code></pre></div></div>
+<p>Reactive systems are built around:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Event → Handler → Action</span><br></span></code></pre></div></div>
+<p>This results in systems that are:</p>
+<ul>
+<li class="">More responsive</li>
+<li class="">More efficient</li>
+<li class="">Easier to reason about</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="final-thoughts">Final Thoughts<a href="https://clustron.io/blog/2026/03/30/watch-changes/#final-thoughts" class="hash-link" aria-label="Direct link to Final Thoughts" title="Direct link to Final Thoughts" translate="no">​</a></h2>
+<p>Polling is often the simplest way to get started, and in small systems, it works well enough.</p>
+<p>But as systems grow, the cost of polling becomes increasingly difficult to justify.</p>
+<p>Clustron Watch offers a different approach — one where your system reacts to change rather than searching for it.</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Stop asking your system if something changed.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Let it tell you when it does.</span><br></span></code></pre></div></div>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="getting-started">Getting Started<a href="https://clustron.io/blog/2026/03/30/watch-changes/#getting-started" class="hash-link" aria-label="Direct link to Getting Started" title="Direct link to Getting Started" translate="no">​</a></h2>
+<p>Try a simple watch:</p>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> client</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Watch</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WatchPrefixAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">"orders:"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">null</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> ev </span><span class="token operator" style="color:#393A34">=&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Console</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">WriteLine</span><span class="token punctuation" style="color:#393A34">(</span><span class="token interpolation-string string" style="color:#e3116c">$"</span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">{</span><span class="token interpolation-string interpolation expression language-csharp">ev</span><span class="token interpolation-string interpolation expression language-csharp punctuation" style="color:#393A34">.</span><span class="token interpolation-string interpolation expression language-csharp">Key</span><span class="token interpolation-string interpolation punctuation" style="color:#393A34">}</span><span class="token interpolation-string string" style="color:#e3116c"> updated"</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<p>From there, start removing polling loops — one at a time.</p>
+<p>You’ll quickly find that your system becomes not just faster, but fundamentally simpler.</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Distributed Caching in .NET]]></title>
             <link>https://clustron.io/blog/2026/03/16/distributed-caching-dotnet/</link>
