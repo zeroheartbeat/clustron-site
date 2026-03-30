@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-clustron/dkv/developer-guide/leases" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">Leases | Clustron</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://clustron.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://clustron.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://clustron.io/docs/clustron/dkv/developer-guide/leases/"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Leases | Clustron"><meta data-rh="true" name="description" content="Leases are one of the most important concepts in Clustron."><meta data-rh="true" property="og:description" content="Leases are one of the most important concepts in Clustron."><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://clustron.io/docs/clustron/dkv/developer-guide/leases/"><link data-rh="true" rel="alternate" href="https://clustron.io/docs/clustron/dkv/developer-guide/leases/" hreflang="en"><link data-rh="true" rel="alternate" href="https://clustron.io/docs/clustron/dkv/developer-guide/leases/" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Clustron DKV","item":"https://clustron.io/docs/clustron/dkv/overview"},{"@type":"ListItem","position":2,"name":"Developer Guide","item":"https://clustron.io/docs/clustron/dkv/developer-guide/overview"},{"@type":"ListItem","position":3,"name":"Leases","item":"https://clustron.io/docs/clustron/dkv/developer-guide/leases"}]}</script><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="Clustron RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="Clustron Atom Feed">
+
+<link rel="preconnect" href="https://www.google-analytics.com">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FDB40P68KW"></script>
+<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-FDB40P68KW",{anonymize_ip:!0})</script>
+
+
+
+<script>!function(t,e,n,c,a,r,s){t[n]=t[n]||function(){(t[n].q=t[n].q||[]).push(arguments)},(r=e.createElement(c)).async=1,r.src="https://www.clarity.ms/tag/vty0pg5no0",(s=e.getElementsByTagName(c)[0]).parentNode.insertBefore(r,s)}(window,document,"clarity","script")</script><link rel="stylesheet" href="/assets/css/styles.1d346e35.css">
+<script src="/assets/js/runtime~main.c8c7e910.js" defer="defer"></script>
+<script src="/assets/js/main.46553e21.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>document.documentElement.setAttribute("data-theme","light"),document.documentElement.setAttribute("data-theme-choice","light"),function(){try{const n=new URLSearchParams(window.location.search).entries();for(var[t,e]of n)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}(),document.documentElement.setAttribute("data-announcement-bar-initially-dismissed",function(){try{return"true"===localStorage.getItem("docusaurus.announcement.dismiss")}catch(t){}return!1}())</script><div id="__docusaurus"><link rel="preload" as="image" href="/img/logo.svg"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><div class="theme-announcement-bar announcementBar_mb4j" style="background-color:#fde047;color:#111827" role="banner"><div class="content_knG7 announcementBarContent_xLdY">🚀 Clustron DKV <strong style="color:#ef4444">&nbsp;(BETA)&nbsp;</strong> — Distributed systems for .NET</div></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="Clustron Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="Clustron Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Clustron</b></a><a class="navbar__item navbar__link" href="/download/">Downloads</a><a class="navbar__item navbar__link" href="/docs/clustron/dkv/overview/">Docs</a><a class="navbar__item navbar__link" href="/blog/">Blog</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a class="navbar__item navbar__link navbar-contact" href="/contact/">Contact Us</a><a href="https://github.com/zeroheartbeat/clustron-dkv" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><a class="navbar__item navbar__link navbar-cta" href="/download/">Download</a><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG menuWithAnnouncementBar_GW3s"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/docs/clustron/what-is-clustron/"><span title="Clustron" class="categoryLinkLabel_W154">Clustron</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/what-is-clustron/"><span title="What is Clustron?" class="linkLabel_WmDU">What is Clustron?</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/distributed-cache-dotnet/"><span title="Distributed Cache for .NET" class="linkLabel_WmDU">Distributed Cache for .NET</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/distributed-coordination/"><span title="Distributed Coordination in .NET" class="linkLabel_WmDU">Distributed Coordination in .NET</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/clustron-vs-redis/"><span title="Clustron vs Redis" class="linkLabel_WmDU">Clustron vs Redis</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/docs/clustron/dkv/overview/"><span title="Products" class="categoryLinkLabel_W154">Products</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-3 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/clustron/dkv/overview/"><span title="Clustron DKV" class="categoryLinkLabel_W154">Clustron DKV</span></a><button aria-label="Collapse sidebar category &#x27;Clustron DKV&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-4 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/docs/clustron/dkv/getting-started/overview/"><span title="Getting Started" class="categoryLinkLabel_W154">Getting Started</span></a><button aria-label="Expand sidebar category &#x27;Getting Started&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-4 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/docs/clustron/dkv/core-concepts/overview/"><span title="Core Concepts" class="categoryLinkLabel_W154">Core Concepts</span></a><button aria-label="Expand sidebar category &#x27;Core Concepts&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-4 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/docs/clustron/dkv/admin-guide/overview/"><span title="Admin Guide" class="categoryLinkLabel_W154">Admin Guide</span></a><button aria-label="Expand sidebar category &#x27;Admin Guide&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-4 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/clustron/dkv/developer-guide/overview/"><span title="Developer Guide" class="categoryLinkLabel_W154">Developer Guide</span></a><button aria-label="Collapse sidebar category &#x27;Developer Guide&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/overview/"><span title="Overview" class="linkLabel_WmDU">Overview</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/getting-client/"><span title="Getting a Client" class="linkLabel_WmDU">Getting a Client</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/basic-operations/"><span title="Basic Operations" class="linkLabel_WmDU">Basic Operations</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/bulk-operations/"><span title="Bulk Operations" class="linkLabel_WmDU">Bulk Operations</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/batch-operations/"><span title="Batch Operations" class="linkLabel_WmDU">Batch Operations</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/clear-operations/"><span title="Clear Operations" class="linkLabel_WmDU">Clear Operations</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/clustron/dkv/developer-guide/leases/"><span title="Leases" class="linkLabel_WmDU">Leases</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/locks/"><span title="Locks" class="linkLabel_WmDU">Locks</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/counters/"><span title="Counters" class="linkLabel_WmDU">Counters</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/watch/"><span title="Watch" class="linkLabel_WmDU">Watch</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/scan-query/"><span title="Scan &amp; Query" class="linkLabel_WmDU">Scan &amp; Query</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/transactions/"><span title="Transactions" class="linkLabel_WmDU">Transactions</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/serialization/"><span title="Serialization" class="linkLabel_WmDU">Serialization</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/options/"><span title="Options" class="linkLabel_WmDU">Options</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/error-handling/"><span title="Error Handling" class="linkLabel_WmDU">Error Handling</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-5 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/clustron/dkv/developer-guide/client-lifecycle/"><span title="Client Lifecycle" class="linkLabel_WmDU">Client Lifecycle</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-4 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/docs/clustron/dkv/powershell-cli/overview/"><span title="PowerShell CLI" class="categoryLinkLabel_W154">PowerShell CLI</span></a><button aria-label="Expand sidebar category &#x27;PowerShell CLI&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li></ul></li></ul></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Clustron</span></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Products</span></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/docs/clustron/dkv/overview/"><span>Clustron DKV</span></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/docs/clustron/dkv/developer-guide/overview/"><span>Developer Guide</span></a></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Leases</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Leases</h1></header>
+<p>Leases are one of the most important concepts in Clustron.</p>
+<p>They allow you to safely manage <strong>ownership in a distributed system</strong>, where failures are not exceptions — they are expected.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-leases-exist">Why Leases Exist<a href="#why-leases-exist" class="hash-link" aria-label="Direct link to Why Leases Exist" title="Direct link to Why Leases Exist" translate="no">​</a></h2>
+<p>In a single-process application, ownership is simple.</p>
+<p>If a function is running, it owns the work.
+If the process dies, everything stops.</p>
+<p>In a distributed system, this is no longer true.</p>
+<ul>
+<li class="">Multiple instances may try to perform the same work</li>
+<li class="">A process may crash without warning</li>
+<li class="">A machine may become unreachable</li>
+<li class="">A network partition may occur</li>
+</ul>
+<p>Now imagine this situation:</p>
+<ul>
+<li class="">A worker picks up a job</li>
+<li class="">It marks the job as “in progress”</li>
+<li class="">Then the worker crashes</li>
+</ul>
+<p>What happens next?</p>
+<p>Without a mechanism to recover ownership:</p>
+<ul>
+<li class="">The job remains stuck forever</li>
+<li class="">No other worker knows whether it is safe to take over</li>
+</ul>
+<p>This is the exact problem leases solve.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-a-lease-really-means">What a Lease Really Means<a href="#what-a-lease-really-means" class="hash-link" aria-label="Direct link to What a Lease Really Means" title="Direct link to What a Lease Really Means" translate="no">​</a></h2>
+<p>A lease is not just “expiration”.</p>
+<p>A lease represents:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">“This client owns this resource — but only for a limited time”</span><br></span></code></pre></div></div>
+<p>That time-bound ownership is the key.</p>
+<ul>
+<li class="">If the client is alive → it keeps the lease</li>
+<li class="">If the client disappears → the lease expires</li>
+<li class="">When the lease expires → ownership is automatically released</li>
+</ul>
+<p>This allows the system to <strong>recover safely without manual intervention</strong>.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="leases-vs-ttl-the-critical-difference">Leases vs TTL (The Critical Difference)<a href="#leases-vs-ttl-the-critical-difference" class="hash-link" aria-label="Direct link to Leases vs TTL (The Critical Difference)" title="Direct link to Leases vs TTL (The Critical Difference)" translate="no">​</a></h2>
+<p>This is where many people get confused.</p>
+<p>TTL and leases both involve time, but they solve very different problems.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="ttl-data-lifetime">TTL: Data Lifetime<a href="#ttl-data-lifetime" class="hash-link" aria-label="Direct link to TTL: Data Lifetime" title="Direct link to TTL: Data Lifetime" translate="no">​</a></h3>
+<p>TTL answers:</p>
+<blockquote>
+<p>“How long should this data exist?”</p>
+</blockquote>
+<p>Example:</p>
+<ul>
+<li class="">Cache entry expires after 5 minutes</li>
+<li class="">Session expires after 30 minutes</li>
+</ul>
+<p>When TTL expires:</p>
+<ul>
+<li class="">The data is removed</li>
+<li class="">No ownership is involved</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="lease-ownership-and-responsibility">Lease: Ownership and Responsibility<a href="#lease-ownership-and-responsibility" class="hash-link" aria-label="Direct link to Lease: Ownership and Responsibility" title="Direct link to Lease: Ownership and Responsibility" translate="no">​</a></h3>
+<p>A lease answers:</p>
+<blockquote>
+<p>“Who is responsible for this resource right now?”</p>
+</blockquote>
+<p>Example:</p>
+<ul>
+<li class="">Which worker owns a job</li>
+<li class="">Which instance holds a lock</li>
+<li class="">Which node is the leader</li>
+</ul>
+<p>When a lease expires:</p>
+<ul>
+<li class="">Ownership is released</li>
+<li class="">The system becomes available for reassignment</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-mental-model">The Mental Model<a href="#the-mental-model" class="hash-link" aria-label="Direct link to The Mental Model" title="Direct link to The Mental Model" translate="no">​</a></h3>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">TTL   → controls data lifetime  </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Lease → controls ownership and responsibility</span><br></span></code></pre></div></div>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="when-should-you-use-a-lease">When Should You Use a Lease?<a href="#when-should-you-use-a-lease" class="hash-link" aria-label="Direct link to When Should You Use a Lease?" title="Direct link to When Should You Use a Lease?" translate="no">​</a></h2>
+<p>You should use a lease whenever:</p>
+<blockquote>
+<p><strong>A piece of work or resource must have a single, valid owner — and that ownership must not become stale</strong></p>
+</blockquote>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-distributed-workers">1. Distributed Workers<a href="#1-distributed-workers" class="hash-link" aria-label="Direct link to 1. Distributed Workers" title="Direct link to 1. Distributed Workers" translate="no">​</a></h3>
+<p>Imagine a queue of jobs.</p>
+<p>You want:</p>
+<ul>
+<li class="">Only one worker processes a job</li>
+<li class="">If a worker crashes, another can take over</li>
+</ul>
+<p>With leases:</p>
+<ul>
+<li class="">Worker A acquires a lease</li>
+<li class="">It marks the job as active</li>
+<li class="">It keeps renewing the lease while working</li>
+</ul>
+<p>If Worker A crashes:</p>
+<ul>
+<li class="">Lease expires</li>
+<li class="">Job becomes available again</li>
+</ul>
+<p>No manual cleanup required.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-leader-election">2. Leader Election<a href="#2-leader-election" class="hash-link" aria-label="Direct link to 2. Leader Election" title="Direct link to 2. Leader Election" translate="no">​</a></h3>
+<p>In distributed systems, you often need a leader:</p>
+<ul>
+<li class="">One instance performs coordination</li>
+<li class="">Others follow</li>
+</ul>
+<p>With leases:</p>
+<ul>
+<li class="">A node acquires a lease as “leader”</li>
+<li class="">It renews periodically</li>
+</ul>
+<p>If it fails:</p>
+<ul>
+<li class="">Lease expires</li>
+<li class="">Another node becomes leader</li>
+</ul>
+<p>This enables <strong>automatic failover</strong>.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-resource-ownership">3. Resource Ownership<a href="#3-resource-ownership" class="hash-link" aria-label="Direct link to 3. Resource Ownership" title="Direct link to 3. Resource Ownership" translate="no">​</a></h3>
+<p>Suppose multiple instances want to use a shared resource:</p>
+<ul>
+<li class="">File</li>
+<li class="">External API quota</li>
+<li class="">Scheduled task</li>
+</ul>
+<p>A lease ensures:</p>
+<ul>
+<li class="">Only one instance owns the resource</li>
+<li class="">Ownership automatically resets on failure</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-temporary-presence-heartbeat-model">4. Temporary Presence (Heartbeat Model)<a href="#4-temporary-presence-heartbeat-model" class="hash-link" aria-label="Direct link to 4. Temporary Presence (Heartbeat Model)" title="Direct link to 4. Temporary Presence (Heartbeat Model)" translate="no">​</a></h3>
+<p>You can use leases to represent <strong>active presence</strong>:</p>
+<ul>
+<li class="">Active workers</li>
+<li class="">Connected clients</li>
+<li class="">Live services</li>
+</ul>
+<p>Each instance:</p>
+<ul>
+<li class="">Creates a key attached to a lease</li>
+<li class="">Keeps the lease alive</li>
+</ul>
+<p>If it disappears:</p>
+<ul>
+<li class="">Lease expires</li>
+<li class="">Presence is removed automatically</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-leases-work-in-practice">How Leases Work in Practice<a href="#how-leases-work-in-practice" class="hash-link" aria-label="Direct link to How Leases Work in Practice" title="Direct link to How Leases Work in Practice" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="grant-a-lease">Grant a Lease<a href="#grant-a-lease" class="hash-link" aria-label="Direct link to Grant a Lease" title="Direct link to Grant a Lease" translate="no">​</a></h3>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token class-name keyword" style="color:#00009f">var</span><span class="token plain"> lease </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> client</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Leases</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">GrantAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">TimeSpan</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">FromSeconds</span><span class="token punctuation" style="color:#393A34">(</span><span class="token number" style="color:#36acaa">10</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<p>You now own a lease for 10 seconds.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="attach-work-to-the-lease">Attach Work to the Lease<a href="#attach-work-to-the-lease" class="hash-link" aria-label="Direct link to Attach Work to the Lease" title="Direct link to Attach Work to the Lease" translate="no">​</a></h3>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> client</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">PutAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string" style="color:#e3116c">&quot;worker:1&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string" style="color:#e3116c">&quot;active&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token named-parameter punctuation" style="color:#393A34">leaseId</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> lease</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Id</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<p>This key is now tied to your ownership.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="keep-the-lease-alive">Keep the Lease Alive<a href="#keep-the-lease-alive" class="hash-link" aria-label="Direct link to Keep the Lease Alive" title="Direct link to Keep the Lease Alive" translate="no">​</a></h3>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> client</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Leases</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">KeepAliveAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">lease</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Id</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<p>As long as you keep renewing, you remain the owner.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="if-you-stop-renewing">If You Stop Renewing<a href="#if-you-stop-renewing" class="hash-link" aria-label="Direct link to If You Stop Renewing" title="Direct link to If You Stop Renewing" translate="no">​</a></h3>
+<ul>
+<li class="">Lease expires</li>
+<li class="">Ownership is released</li>
+<li class="">Attached keys are removed</li>
+</ul>
+<p>The system cleans up automatically.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="revoke-explicitly">Revoke Explicitly<a href="#revoke-explicitly" class="hash-link" aria-label="Direct link to Revoke Explicitly" title="Direct link to Revoke Explicitly" translate="no">​</a></h3>
+<div class="language-csharp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-csharp codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">await</span><span class="token plain"> client</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Leases</span><span class="token punctuation" style="color:#393A34">.</span><span class="token function" style="color:#d73a49">RevokeAsync</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">lease</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Id</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<p>You can also release ownership intentionally.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-leases-are-safer-than-locks">Why Leases Are Safer Than Locks<a href="#why-leases-are-safer-than-locks" class="hash-link" aria-label="Direct link to Why Leases Are Safer Than Locks" title="Direct link to Why Leases Are Safer Than Locks" translate="no">​</a></h2>
+<p>Traditional locks have a major problem:</p>
+<blockquote>
+<p>If the owner crashes, the lock may never be released.</p>
+</blockquote>
+<p>Leases solve this:</p>
+<ul>
+<li class="">Every ownership has an expiry</li>
+<li class="">No ownership can become permanent by accident</li>
+</ul>
+<p>This makes leases <strong>failure-safe by design</strong>.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-takeaways">Key Takeaways<a href="#key-takeaways" class="hash-link" aria-label="Direct link to Key Takeaways" title="Direct link to Key Takeaways" translate="no">​</a></h2>
+<ul>
+<li class="">
+<p>Leases are about <strong>ownership</strong>, not just expiration</p>
+</li>
+<li class="">
+<p>They allow systems to <strong>recover automatically from failure</strong></p>
+</li>
+<li class="">
+<p>They are the foundation for:</p>
+<ul>
+<li class="">Locks</li>
+<li class="">Leader election</li>
+<li class="">Distributed workers</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="whats-next">What’s Next<a href="#whats-next" class="hash-link" aria-label="Direct link to What’s Next" title="Direct link to What’s Next" translate="no">​</a></h2>
+<p>👉 Continue to <strong>Locks</strong> to build exclusive access patterns using leases</p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/clustron/dkv/developer-guide/clear-operations/"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Clear Operations</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/clustron/dkv/developer-guide/locks/"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Locks</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#why-leases-exist" class="table-of-contents__link toc-highlight">Why Leases Exist</a></li><li><a href="#what-a-lease-really-means" class="table-of-contents__link toc-highlight">What a Lease Really Means</a></li><li><a href="#leases-vs-ttl-the-critical-difference" class="table-of-contents__link toc-highlight">Leases vs TTL (The Critical Difference)</a><ul><li><a href="#ttl-data-lifetime" class="table-of-contents__link toc-highlight">TTL: Data Lifetime</a></li><li><a href="#lease-ownership-and-responsibility" class="table-of-contents__link toc-highlight">Lease: Ownership and Responsibility</a></li><li><a href="#the-mental-model" class="table-of-contents__link toc-highlight">The Mental Model</a></li></ul></li><li><a href="#when-should-you-use-a-lease" class="table-of-contents__link toc-highlight">When Should You Use a Lease?</a><ul><li><a href="#1-distributed-workers" class="table-of-contents__link toc-highlight">1. Distributed Workers</a></li><li><a href="#2-leader-election" class="table-of-contents__link toc-highlight">2. Leader Election</a></li><li><a href="#3-resource-ownership" class="table-of-contents__link toc-highlight">3. Resource Ownership</a></li><li><a href="#4-temporary-presence-heartbeat-model" class="table-of-contents__link toc-highlight">4. Temporary Presence (Heartbeat Model)</a></li></ul></li><li><a href="#how-leases-work-in-practice" class="table-of-contents__link toc-highlight">How Leases Work in Practice</a><ul><li><a href="#grant-a-lease" class="table-of-contents__link toc-highlight">Grant a Lease</a></li><li><a href="#attach-work-to-the-lease" class="table-of-contents__link toc-highlight">Attach Work to the Lease</a></li><li><a href="#keep-the-lease-alive" class="table-of-contents__link toc-highlight">Keep the Lease Alive</a></li><li><a href="#if-you-stop-renewing" class="table-of-contents__link toc-highlight">If You Stop Renewing</a></li><li><a href="#revoke-explicitly" class="table-of-contents__link toc-highlight">Revoke Explicitly</a></li></ul></li><li><a href="#why-leases-are-safer-than-locks" class="table-of-contents__link toc-highlight">Why Leases Are Safer Than Locks</a></li><li><a href="#key-takeaways" class="table-of-contents__link toc-highlight">Key Takeaways</a></li><li><a href="#whats-next" class="table-of-contents__link toc-highlight">What’s Next</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/clustron/dkv/overview/">Clustron DKV</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/zeroheartbeat/clustron-dkv/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Discussions<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://x.com/clustron" target="_blank" rel="noopener noreferrer" class="footer__link-item">X<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog/">Blog</a></li><li class="footer__item"><a href="https://github.com/zeroheartbeat/clustron-dkv" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Clustron.</div></div></div></footer></div>
+</body>
+</html>
